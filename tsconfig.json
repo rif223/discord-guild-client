@@ -1,0 +1,22 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ],
+  "compilerOptions": {
+    "outDir": "./lib",
+    "allowJs": false,
+    "checkJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "lib": ["ES2022"],
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "sourceMap": true,
+    "target": "ES2022"
+  }
+}
