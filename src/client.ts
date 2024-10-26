@@ -153,7 +153,7 @@ export class Client extends EventEmitter {
    * @throws {Error} Throws an error if the API request fails or the data cannot be processed.
    */
   private async initialize(): Promise<void> {
-    if(!this.ws.conn) return;
+    //if(!this.ws.conn) return;
 
     let channels = await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guildChannels());
     for (const channel of channels) {
