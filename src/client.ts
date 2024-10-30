@@ -173,6 +173,14 @@ export class Client extends EventEmitter {
     this.user = new User(this, await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.user()));
 
     this.guild = new Guild(this, await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guild()));
+
+    // Ready Events
+    /**
+     * Emits an event when the client is ready.
+     * 
+     * @event ready
+     */
+    this.emit("ready");
     return;
   }
 
@@ -402,15 +410,15 @@ export class Client extends EventEmitter {
 
       let commandPayload: CommandPayload;
 
-        // Check if the options are already a RolePayload object
-        if (options instanceof CommandPayload) {
-            commandPayload = options;
-        } else {
-            commandPayload = new CommandPayload(options);
-        }
+      // Check if the options are already a RolePayload object
+      if (options instanceof CommandPayload) {
+        commandPayload = options;
+      } else {
+        commandPayload = new CommandPayload(options);
+      }
 
-        // Prepare the payload for the API request
-        const payload = commandPayload.toJSON();
+      // Prepare the payload for the API request
+      const payload = commandPayload.toJSON();
 
       const data = await this.rest.request(
         RestApi.HttpMethod.POST,
