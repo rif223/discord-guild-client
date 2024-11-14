@@ -4,19 +4,22 @@
   ],
   "exclude": [
     "node_modules",
-    "lib"
+    "lib",
+    "typings"
   ],
   "compilerOptions": {
+    "types": ["node"],
     "outDir": "./lib",
     "allowJs": false,
     "checkJs": false,
     "declaration": true,
     "declarationMap": true,
+    "outFile": "./typings/index.d.ts",
     "emitDeclarationOnly": true,
-    "lib": ["ES2022"],
-    "module": "ES2022",
-    "moduleResolution": "Bundler",
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "sourceMap": true,
-    "target": "ES2022"
+    "target": "ESNext"
   }
 }
