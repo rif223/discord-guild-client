@@ -14,12 +14,12 @@
     "checkJs": false,
     "declaration": true,
     "declarationMap": true,
-    "outFile": "./typings/index.d.ts",
     "emitDeclarationOnly": true,
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "sourceMap": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "outFile": "./typings/index.d.ts",
   }
 }

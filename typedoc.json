@@ -1,0 +1,20 @@
+{
+    "entryPoints": [
+        "src/index.ts"
+    ],
+    "out": "docs",
+    "name": "discord-guild-client",
+    "tsconfig": "tsconfig.json",
+    "theme": "default",
+    "exclude": [
+        "**/node_modules/**",
+        "**/lib/**",
+        "**/typings/**"
+    ],
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeProtected": false,
+    "excludeNotDocumented": false,
+    "categorizeByGroup": true,
+    "disableSources": false
+}
