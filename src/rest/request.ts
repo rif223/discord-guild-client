@@ -7,7 +7,7 @@ import axios, { Axios, AxiosRequestConfig } from "axios";
  */
 export class RestApi {
 
-    private axios: Axios;
+    public axios: Axios;
 
     /**
      * Creates an instance of `RestApi`.

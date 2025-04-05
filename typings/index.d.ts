@@ -26,13 +26,14 @@ declare module "rest/endpoints" {
     };
 }
 declare module "rest/request" {
+    import { Axios } from "axios";
     /**
      * The `RestApi` class provides a simplified interface for making HTTP requests
      * to a specified server using Axios. It supports common HTTP methods and
      * manages authorization headers.
      */
     export class RestApi {
-        private axios;
+        axios: Axios;
         /**
          * Creates an instance of `RestApi`.
          *
@@ -2467,14 +2468,15 @@ declare module "structures/guild" {
     }
 }
 declare module "ws/websocket" {
-    import { ErrorEvent } from 'ws';
+    import WebSocket, { ErrorEvent } from 'ws';
+    import { Client } from "client";
     /**
      * The `WebSocketClient` class handles the creation and management of a WebSocket connection to a given server.
      * It can send and receive messages, handle errors, and close the connection gracefully.
      */
     export class WebSocketClient {
-        private ws;
-        private _client;
+        ws: WebSocket;
+        _client: Client;
         conn: boolean;
         /**
          * Creates an instance of `WebSocketClient`.
@@ -2483,7 +2485,7 @@ declare module "ws/websocket" {
          * @param {string} host - The WebSocket server host URL (http or https will be converted to ws or wss).
          * @param {string} token - The authorization token used to authenticate with the WebSocket server.
          */
-        constructor(client: any, host: string, token: string);
+        constructor(client: Client, host: string, token: string);
         /**
          * Event handler for the "open" WebSocket event.
          *

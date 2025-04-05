@@ -7,8 +7,8 @@ import { Client } from '../client';
  */
 export class WebSocketClient {
 
-    private ws: WebSocket;
-    private _client: Client;
+    public ws: WebSocket;
+    public _client: Client;
     public conn: boolean;
 
     /**
@@ -18,7 +18,7 @@ export class WebSocketClient {
      * @param {string} host - The WebSocket server host URL (http or https will be converted to ws or wss).
      * @param {string} token - The authorization token used to authenticate with the WebSocket server.
      */
-    constructor(client: any, host: string, token: string) {
+    constructor(client: Client, host: string, token: string) {
 
         // Ensure the correct WebSocket protocol based on the host URL.
         if (host.startsWith('https://')) {
