@@ -20,6 +20,6 @@
     "moduleResolution": "bundler",
     "sourceMap": true,
     "target": "ESNext",
-    "outFile": "./typings/index.d.ts",
+    "outFile": "./typings/index.d.ts"
   }
 }

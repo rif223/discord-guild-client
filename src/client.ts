@@ -158,7 +158,7 @@ export class Client extends EventEmitter {
    * WebSocket client instance used to handle real-time events and updates from the server.
    * @type {WebSocketClient}
    */
-  private ws: WebSocketClient;
+  public ws: WebSocketClient;
 
   /**
    * REST API client instance used for making HTTP requests to the server.

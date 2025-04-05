@@ -1,6 +1,6 @@
 {
   "name": "discord-guild-client",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "This is a discord guild libery!",
   "type": "module",
   "types": "./typings/index.d.ts",
@@ -27,9 +27,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/rif223/discord-guild-client.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "author": "rif223",
   "license": "MIT",
