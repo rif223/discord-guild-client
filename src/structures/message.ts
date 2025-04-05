@@ -60,11 +60,11 @@ export class Message {
     constructor(client: Client, data: any) {
         this._client = client;
 
-        /**
-         * The channel object where the message was sent.
-         * @type {GuildChannel | null}
-         */
         if (data && data.channel_id) {
+            /**
+             * The channel object where the message was sent.
+             * @type {GuildChannel | null}
+             */
             this.channel = this._client.channels?.get(data.channel_id) || null;
         } else {
             console.error("Invalid data received for Message:", data);

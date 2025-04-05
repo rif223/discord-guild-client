@@ -27,12 +27,12 @@ export class GuildBan {
          * The unique ID of the guild where the ban was applied.
          * @type {string}
          */
-        if (data.guild_id !== undefined) this.guildId = data.guild_id;
+        this.guildId = data.guild_id;
 
         /**
          * The user object representing the user who was banned.
          * @type {any}
          */
-        if (data.user !== undefined) this.user = data.user;
+        this.user = data.user;
     }
 }
