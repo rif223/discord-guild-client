@@ -7,8 +7,22 @@ import { Client } from '../client';
  */
 export class WebSocketClient {
 
+    /**
+     * WebSocket client instance used to handle real-time events and updates from the server.
+     * @type {WebSocket}
+     */
     public ws: WebSocket;
+
+    /**
+     * Represents the main client for interacting with the API and WebSocket.
+     * @type {Client}
+     */
     public _client: Client;
+
+    /**
+     * Indicates whether the WebSocket connection is established or not.
+     * @type {boolean}
+     */
     public conn: boolean;
 
     /**

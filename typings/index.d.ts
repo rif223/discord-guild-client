@@ -33,6 +33,10 @@ declare module "rest/request" {
      * manages authorization headers.
      */
     export class RestApi {
+        /**
+         * Axios instance used to handle HTTP requests and responses.
+         * @type {Axios}
+         */
         axios: Axios;
         /**
          * Creates an instance of `RestApi`.
@@ -2475,8 +2479,20 @@ declare module "ws/websocket" {
      * It can send and receive messages, handle errors, and close the connection gracefully.
      */
     export class WebSocketClient {
+        /**
+         * WebSocket client instance used to handle real-time events and updates from the server.
+         * @type {WebSocket}
+         */
         ws: WebSocket;
+        /**
+         * Represents the main client for interacting with the API and WebSocket.
+         * @type {Client}
+         */
         _client: Client;
+        /**
+         * Indicates whether the WebSocket connection is established or not.
+         * @type {boolean}
+         */
         conn: boolean;
         /**
          * Creates an instance of `WebSocketClient`.

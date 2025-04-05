@@ -7,6 +7,10 @@ import axios, { Axios, AxiosRequestConfig } from "axios";
  */
 export class RestApi {
 
+    /**
+     * Axios instance used to handle HTTP requests and responses.
+     * @type {Axios}
+     */
     public axios: Axios;
 
     /**
