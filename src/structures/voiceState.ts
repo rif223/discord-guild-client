@@ -33,16 +33,6 @@ export class VoiceState {
   constructor(client: Client, data: any) {
     this._client = client;
 
-    if (data && data.channel_id) {
-      /**
-       * The channel the user is connected to, if applicable.
-       * @type {?GuildChannel | null}
-       */
-      this.channel = this._client.channels?.get(data.channel_id) || null;
-    } else {
-      console.error("Invalid data received for VoiceState:", data);
-    }
-
     this._update(data);
   }
 
@@ -62,6 +52,12 @@ export class VoiceState {
      * @type {?string}
      */
     this.channelID = data.channel_id ?? null;
+
+    /**
+     * The channel the user is connected to, if applicable.
+     * @type {?GuildChannel | null}
+     */
+    this.channel = this._client.channels?.get(data.channel_id) || null;
 
     /**
      * The ID of the user this voice state belongs to.
