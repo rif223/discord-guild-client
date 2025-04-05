@@ -10,88 +10,19 @@ import { Member } from "./member";
 export class VoiceState {
   private _client: Client;
 
-  /**
-   * The ID of the guild this voice state belongs to.
-   * @type {?string}
-   */
   public guildID?: string;
-
-  /**
-   * The ID of the channel the user is connected to, if applicable.
-   * @type {?string}
-   */
   public channelID?: string;
-
-  /**
-   * The channel the user is connected to, if applicable.
-   * @type {?GuildChannel | null}
-   */
   public channel?: GuildChannel | null;
-
-  /**
-   * The ID of the user this voice state belongs to.
-   * @type {string}
-   */
   public userID!: string;
-
-  /**
-   * The guild member this voice state is associated with, if applicable.
-   * @type {?Member}
-   */
   public member?: Member;
-
-  /**
-   * The session ID for this voice state.
-   * @type {string}
-   */
   public sessionID!: string;
-
-  /**
-   * Whether the user is deafened by the server.
-   * @type {boolean}
-   */
   public deaf!: boolean;
-
-  /**
-   * Whether the user is muted by the server.
-   * @type {boolean}
-   */
   public mute!: boolean;
-
-  /**
-   * Whether the user is locally deafened.
-   * @type {boolean}
-   */
   public selfDeaf!: boolean;
-
-  /**
-   * Whether the user is locally muted.
-   * @type {boolean}
-   */
   public selfMute!: boolean;
-
-  /**
-   * Whether the user is streaming using "Go Live".
-   * @type {?boolean}
-   */
   public selfStream?: boolean;
-
-  /**
-   * Whether the user's camera is enabled.
-   * @type {boolean}
-   */
   public selfVideo!: boolean;
-
-  /**
-   * Whether the user's permission to speak is denied.
-   * @type {boolean}
-   */
   public suppress!: boolean;
-
-  /**
-   * The time at which the user requested to speak, if applicable.
-   * @type {?string}
-   */
   public requestToSpeakTimestamp?: string;
 
   /**
@@ -102,6 +33,10 @@ export class VoiceState {
   constructor(client: Client, data: any) {
     this._client = client;
 
+    /**
+     * The channel the user is connected to, if applicable.
+     * @type {?GuildChannel | null}
+     */
     if (data && data.channel_id) {
       this.channel = this._client.channels?.get(data.channel_id) || null;
     } else {
@@ -116,18 +51,82 @@ export class VoiceState {
    * @param {Object} data - The data object containing voice state information.
    */
   private _update(data: any) {
+    /**
+     * The ID of the guild this voice state belongs to.
+     * @type {?string}
+     */
     if (data.guild_id !== undefined) this.guildID = data.guild_id ?? null;
+
+    /**
+     * The ID of the channel the user is connected to, if applicable.
+     * @type {?string}
+     */
     if (data.channel_id !== undefined) this.channelID = data.channel_id ?? null;
+
+    /**
+     * The ID of the user this voice state belongs to.
+     * @type {string}
+     */
     if (data.user_id !== undefined) this.userID = data.user_id;
+
+    /**
+     * The guild member this voice state is associated with, if applicable.
+     * @type {?Member}
+     */
     if (data.member !== undefined) this.member = data.member ? new Member(this._client, data.member) : undefined;
+
+    /**
+     * The session ID for this voice state.
+     * @type {string}
+     */
     if (data.session_id !== undefined) this.sessionID = data.session_id;
+
+    /**
+     * Whether the user is deafened by the server.
+     * @type {boolean}
+     */
     if (data.deaf !== undefined) this.deaf = data.deaf;
+
+    /**
+     * Whether the user is muted by the server.
+     * @type {boolean}
+     */
     if (data.mute !== undefined) this.mute = data.mute;
+
+    /**
+     * Whether the user is locally deafened.
+     * @type {boolean}
+     */
     if (data.self_deaf !== undefined) this.selfDeaf = data.self_deaf;
+
+    /**
+     * Whether the user is locally muted.
+     * @type {boolean}
+     */
     if (data.self_mute !== undefined) this.selfMute = data.self_mute;
+
+    /**
+     * Whether the user is streaming using "Go Live".
+     * @type {?boolean}
+     */
     if (data.self_stream !== undefined) this.selfStream = data.self_stream ?? null;
+
+    /**
+     * Whether the user's camera is enabled.
+     * @type {boolean}
+     */
     if (data.self_video !== undefined) this.selfVideo = data.self_video;
+
+    /**
+     * Whether the user's permission to speak is denied.
+     * @type {boolean}
+     */
     if (data.suppress !== undefined) this.suppress = data.suppress;
+
+    /**
+     * The time at which the user requested to speak, if applicable.
+     * @type {?string}
+     */
     if (data.request_to_speak_timestamp !== undefined) this.requestToSpeakTimestamp = data.request_to_speak_timestamp ?? null;
   }
 }

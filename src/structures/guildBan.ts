@@ -4,19 +4,9 @@ import { Client } from "../client";
  * Represents a ban in a Discord guild.
  */
 export class GuildBan {
-
     private _client: Client;
 
-    /**
-     * The unique ID of the guild where the ban was applied.
-     * @type {string}
-     */
     public guildId!: string;
-
-    /**
-     * The user object representing the user who was banned.
-     * @type {any}
-     */
     public user!: any;
 
     /**
@@ -33,7 +23,16 @@ export class GuildBan {
      * @param {Object} data - The data object containing ban information.
      */
     private _update(data: any) {
+        /**
+         * The unique ID of the guild where the ban was applied.
+         * @type {string}
+         */
         if (data.guild_id !== undefined) this.guildId = data.guild_id;
+
+        /**
+         * The user object representing the user who was banned.
+         * @type {any}
+         */
         if (data.user !== undefined) this.user = data.user;
     }
 }

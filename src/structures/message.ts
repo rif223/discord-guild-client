@@ -15,222 +15,41 @@ import { apiEndpoints } from "../rest/endpoints";
 export class Message {
     private _client: Client;
 
-    /**
-     * The unique ID of the message.
-     * @type {string}
-     */
     public id!: string;
-
-    /**
-     * The unique ID of the channel where the message was sent.
-     * @type {string}
-     */
     public channelID!: string;
-
-    /**
-     * The channel object where the message was sent.
-     * @type {GuildChannel | null}
-     */
     public channel!: GuildChannel | null;
-
-    /**
-     * The author of the message (not guaranteed to be a valid user).
-     * @type {User | null}
-     */
     public author!: User | null;
-
-    /**
-     * The content of the message.
-     * @type {string}
-     */
     public content!: string;
-
-    /**
-     * The timestamp of when the message was sent (ISO8601 format).
-     * @type {string}
-     */
     public timestamp!: string;
-
-    /**
-     * The timestamp of when the message was last edited, or `null` if never edited.
-     * @type {string | null}
-     */
     public editedTimestamp!: string | null;
-
-    /**
-     * Whether the message was text-to-speech.
-     * @type {boolean}
-     */
     public tts!: boolean;
-
-    /**
-     * Whether the message mentioned everyone.
-     * @type {boolean}
-     */
     public mentionEveryone!: boolean;
-
-    /**
-     * Users specifically mentioned in the message.
-     * @type {User[]}
-     */
     public mentions!: User[];
-
-    /**
-     * Roles specifically mentioned in the message.
-     * @type {Role[]}
-     */
     public mentionRoles!: Role[];
-
-    /**
-     * Channels specifically mentioned in the message.
-     * @type {Channel[] | null}
-     */
     public mentionChannels!: GuildChannel[] | null;
-
-    /**
-     * Any attached files.
-     * @type {Attachment[]}
-     */
     public attachments!: Attachment[];
-
-    /**
-     * Any embedded content.
-     * @type {Embed[]}
-     */
     public embeds!: Embed[];
-
-    /**
-     * Reactions to the message.
-     * @type {Reaction[] | null}
-     */
     public reactions!: Reaction[] | null;
-
-    /**
-     * A nonce value to validate message sending.
-     * @type {string | number | null}
-     */
     public nonce!: string | number | null;
-
-    /**
-     * Whether the message is pinned in the channel.
-     * @type {boolean}
-     */
     public pinned!: boolean;
-
-    /**
-     * The ID of the webhook that sent the message, if applicable.
-     * @type {string | null}
-     */
     public webhookID!: string | null;
-
-    /**
-     * The type of the message.
-     * @type {number}
-     */
     public type!: number;
-
-    /**
-     * Activity related to the message, such as Rich Presence.
-     * @type {any | null}
-     */
     public activity!: any | null;
-
-    /**
-     * Application data associated with the message.
-     * @type {any | null}
-     */
     public application!: any | null;
-
-    /**
-     * The application ID if the message is associated with an application.
-     * @type {string | null}
-     */
     public applicationID!: string | null;
-
-    /**
-     * Bitfield flags for the message.
-     * @type {number | null}
-     */
     public flags!: number | null;
-
-    /**
-     * Data showing the source of a crosspost, channel follow add, pin, or reply message.
-     * @type {any}
-     */
     public messageReference!: any;
-
-    /**
-     * The message object associated with the message reference, if any.
-     * @type {Message | null}
-     */
     public referencedMessage!: Message | null;
-
-    /**
-     * Metadata about any interaction associated with the message.
-     * @type {any}
-     */
     public interactionMetadata!: any;
-
-    /**
-     * Deprecated interaction object (use interactionMetadata instead).
-     * @type {Interaction | null}
-     * @deprecated
-     */
     public interaction!: Interaction | null;
-
-    /**
-     * The thread started by this message, if applicable.
-     * @type {GuildChannel | null}
-     */
     public thread!: GuildChannel | null;
-
-    /**
-     * Interactive components (buttons, select menus, etc.) attached to the message.
-     * @type {any[]}
-     */
     public components!: any[];
-
-    /**
-     * Sticker items included with the message.
-     * @type {any[]}
-     */
     public stickerItems!: any[];
-
-    /**
-     * Deprecated sticker field. Use `stickerItems` instead.
-     * @type {any[]}
-     * @deprecated
-     */
     public stickers!: any[];
-
-    /**
-     * Represents the approximate position of the message in a thread.
-     * @type {number | null}
-     */
     public position!: number | null;
-
-    /**
-     * Role subscription data related to the message, if applicable.
-     * @type {any | null}
-     */
     public roleSubscriptionData!: any | null;
-
-    /**
-     * Data for users, members, channels, and roles in the message's auto-populated select menus.
-     * @type {any | null}
-     */
     public resolved!: any | null;
-
-    /**
-     * Poll data associated with the message, if applicable.
-     * @type {any | null}
-     */
     public poll!: any | null;
-
-    /**
-     * Call data associated with the message, if applicable.
-     * @type {any | null}
-     */
     public call!: any | null;
 
     /**
@@ -241,6 +60,10 @@ export class Message {
     constructor(client: Client, data: any) {
         this._client = client;
 
+        /**
+         * The channel object where the message was sent.
+         * @type {GuildChannel | null}
+         */
         if (data && data.channel_id) {
             this.channel = this._client.channels?.get(data.channel_id) || null;
         } else {
@@ -255,40 +78,226 @@ export class Message {
      * @param {any} data - The data object containing message information.
      */
     private _update(data: any): void {
+        /**
+         * The unique ID of the message.
+         * @type {string}
+         */
         this.id = data.id;
+
+        /**
+         * The unique ID of the channel where the message was sent.
+         * @type {string}
+         */
         this.channelID = data.channel_id;
+
+        /**
+         * The author of the message (not guaranteed to be a valid user).
+         * @type {User | null}
+         */
         this.author = data.author ? new User(this._client, data.author) : null;
+
+        /**
+         * The content of the message.
+         * @type {string}
+         */
         this.content = data.content || "";
+
+        /**
+         * The timestamp of when the message was sent (ISO8601 format).
+         * @type {string}
+         */
         this.timestamp = data.timestamp;
+
+        /**
+         * The timestamp of when the message was last edited, or `null` if never edited.
+         * @type {string | null}
+         */
         this.editedTimestamp = data.edited_timestamp || null;
+
+        /**
+         * Whether the message was text-to-speech.
+         * @type {boolean}
+         */
         this.tts = data.tts || false;
+
+        /**
+         * Whether the message mentioned everyone.
+         * @type {boolean}
+         */
         this.mentionEveryone = data.mention_everyone || false;
+
+        /**
+         * Users specifically mentioned in the message.
+         * @type {User[]}
+         */
         this.mentions = data.mentions || [];
+
+        /**
+         * Roles specifically mentioned in the message.
+         * @type {Role[]}
+         */
         this.mentionRoles = data.mention_roles || [];
+
+        /**
+         * Channels specifically mentioned in the message.
+         * @type {Channel[] | null}
+         */
         this.mentionChannels = data.mention_channels || null;
-        this.attachments = data.attachments ? data.attachments.map((attachmentData: any) => new Attachment(this._client, attachmentData)) : null;
-        this.embeds = data.embeds ? data.embeds.map((embedData: any) => new Embed(this._client, embedData)) : null;
-        this.reactions = data.reactions ? data.reactions.map((reactionData: any) => new Reaction(this._client, reactionData)) : null;
+
+        /**
+         * Any attached files.
+         * @type {Attachment[]}
+         */
+        this.attachments = data.attachments
+            ? data.attachments.map((attachmentData: any) => new Attachment(this._client, attachmentData))
+            : null;
+
+        /**
+         * Any embedded content.
+         * @type {Embed[]}
+         */
+        this.embeds = data.embeds
+            ? data.embeds.map((embedData: any) => new Embed(this._client, embedData))
+            : null;
+
+        /**
+         * Reactions to the message.
+         * @type {Reaction[] | null}
+         */
+        this.reactions = data.reactions
+            ? data.reactions.map((reactionData: any) => new Reaction(this._client, reactionData))
+            : null;
+
+        /**
+         * A nonce value to validate message sending.
+         * @type {string | number | null}
+         */
         this.nonce = data.nonce || null;
+
+        /**
+         * Whether the message is pinned in the channel.
+         * @type {boolean}
+         */
         this.pinned = data.pinned || false;
+
+        /**
+         * The ID of the webhook that sent the message, if applicable.
+         * @type {string | null}
+         */
         this.webhookID = data.webhook_id || null;
+
+        /**
+         * The type of the message.
+         * @type {number}
+         */
         this.type = data.type || 0;
+
+        /**
+         * Activity related to the message, such as Rich Presence.
+         * @type {any | null}
+         */
         this.activity = data.activity || null;
+
+        /**
+         * Application data associated with the message.
+         * @type {any | null}
+         */
         this.application = data.application || null;
+
+        /**
+         * The application ID if the message is associated with an application.
+         * @type {string | null}
+         */
         this.applicationID = data.application_id || null;
+
+        /**
+         * Bitfield flags for the message.
+         * @type {number | null}
+         */
         this.flags = data.flags || null;
+
+        /**
+         * Data showing the source of a crosspost, channel follow add, pin, or reply message.
+         * @type {any}
+         */
         this.messageReference = data.message_reference || null;
-        this.referencedMessage = data.referenced_message ? new Message(this._client, data.referenced_message) : null;
+
+        /**
+         * The message object associated with the message reference, if any.
+         * @type {Message | null}
+         */
+        this.referencedMessage = data.referenced_message
+            ? new Message(this._client, data.referenced_message)
+            : null;
+
+        /**
+         * Metadata about any interaction associated with the message.
+         * @type {any}
+         */
         this.interactionMetadata = data.interaction_metadata || null;
-        this.interaction = data.interaction ? new Interaction(this._client, data.interaction) : null;
+
+        /**
+         * Deprecated interaction object (use interactionMetadata instead).
+         * @type {Interaction | null}
+         * @deprecated
+         */
+        this.interaction = data.interaction
+            ? new Interaction(this._client, data.interaction)
+            : null;
+
+        /**
+         * The thread started by this message, if applicable.
+         * @type {GuildChannel | null}
+         */
         this.thread = data.thread ? new GuildChannel(this._client, data.thread) : null;
+
+        /**
+         * Interactive components (buttons, select menus, etc.) attached to the message.
+         * @type {any[]}
+         */
         this.components = data.components || [];
+
+        /**
+         * Sticker items included with the message.
+         * @type {any[]}
+         */
         this.stickerItems = data.sticker_items || [];
+
+        /**
+         * Deprecated sticker field. Use `stickerItems` instead.
+         * @type {any[]}
+         * @deprecated
+         */
         this.stickers = data.stickers || [];
+
+        /**
+         * Represents the approximate position of the message in a thread.
+         * @type {number | null}
+         */
         this.position = data.position || null;
+
+        /**
+         * Role subscription data related to the message, if applicable.
+         * @type {any | null}
+         */
         this.roleSubscriptionData = data.role_subscription_data || null;
+
+        /**
+         * Data for users, members, channels, and roles in the message's auto-populated select menus.
+         * @type {any | null}
+         */
         this.resolved = data.resolved || null;
+
+        /**
+         * Poll data associated with the message, if applicable.
+         * @type {any | null}
+         */
         this.poll = data.poll || null;
+
+        /**
+         * Call data associated with the message, if applicable.
+         * @type {any | null}
+         */
         this.call = data.call || null;
     }
 

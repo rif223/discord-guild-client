@@ -1,6 +1,6 @@
 {
   "name": "discord-guild-client",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "This is a discord guild libery!",
   "type": "module",
   "types": "./typings/index.d.ts",

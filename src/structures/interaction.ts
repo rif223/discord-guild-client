@@ -14,118 +14,24 @@ import { User } from "./user";
 export class Interaction {
   private _client: Client;
 
-  /**
-   * The unique ID of the interaction.
-   * @type {string}
-   */
   public id!: string;
-
-  /**
-   * The ID of the application this interaction is for.
-   * @type {string}
-   */
   public applicationId!: string;
-
-  /**
-   * The type of interaction.
-   * @type {number}
-   */
   public type!: number;
-
-  /**
-   * The interaction data payload, if any.
-   * @type {?any}
-   */
   public data?: any;
-
-  /**
-   * The partial guild object from which the interaction was sent, if applicable.
-   * @type {?Guild}
-   */
   public guild?: Guild;
-
-  /**
-   * The ID of the guild from which the interaction was sent, if applicable.
-   * @type {?string}
-   */
   public guildId?: string;
-
-  /**
-   * The partial channel object from which the interaction was sent, if applicable.
-   * @type {?GuildChannel}
-   */
   public channel?: GuildChannel;
-
-  /**
-   * The ID of the channel from which the interaction was sent, if applicable.
-   * @type {?string}
-   */
   public channelId?: string;
-
-  /**
-   * The guild member object for the invoking user, including permissions, if applicable.
-   * @type {?Member}
-   */
   public member?: Member;
-
-  /**
-   * The user object for the invoking user, if invoked in a DM.
-   * @type {?User}
-   */
   public user?: User;
-
-  /**
-   * The continuation token for responding to the interaction.
-   * @type {string}
-   */
   public token!: string;
-
-  /**
-   * The read-only version property, always set to 1.
-   * @type {number}
-   */
   public version: number = 1;
-
-  /**
-   * The message object for components, if applicable.
-   * @type {?Message}
-   */
   public message?: Message;
-
-  /**
-   * The bitwise set of permissions the app has in the source location of the interaction.
-   * @type {?string}
-   */
   public appPermissions?: string;
-
-  /**
-   * The selected language of the invoking user, if available.
-   * @type {?string}
-   */
   public locale?: string;
-
-  /**
-   * The preferred locale of the guild, if invoked in a guild.
-   * @type {?string}
-   */
   public guildLocale?: string;
-
-  /**
-   * For monetized apps, any entitlements for the invoking user, representing access to premium SKUs.
-   * @type {?any[]}
-   */
   public entitlements?: any[];
-
-  /**
-   * A mapping of installation contexts that the interaction was authorized for, related to user or guild IDs.
-   * @type {?any}
-   */
   public authorizingIntegrationOwners?: any;
-
-  /**
-   * The context where the interaction was triggered from, if applicable.
-   * @type {?number}
-   */
   public context?: number;
 
   /**
@@ -144,24 +50,118 @@ export class Interaction {
    * @param {Object} data - The data object containing interaction information.
    */
   private _update(data: any) {
+    /**
+     * The unique ID of the interaction.
+     * @type {string}
+     */
     if (data.id !== undefined) this.id = data.id;
+
+    /**
+     * The ID of the application this interaction is for.
+     * @type {string}
+     */
     if (data.application_id !== undefined) this.applicationId = data.application_id;
+
+    /**
+     * The type of interaction.
+     * @type {number}
+     */
     if (data.type !== undefined) this.type = data.type;
+
+    /**
+     * The interaction data payload, if any.
+     * @type {?any}
+     */
     if (data.data !== undefined) this.data = data.data ?? null;
+
+    /**
+     * The partial guild object from which the interaction was sent, if applicable.
+     * @type {?Guild}
+     */
     if (data.guild !== undefined) this.guild = data.guild ? new Guild(this._client, data.guild) : undefined;
+
+    /**
+     * The ID of the guild from which the interaction was sent, if applicable.
+     * @type {?string}
+     */
     if (data.guild_id !== undefined) this.guildId = data.guild_id ?? null;
+
+    /**
+     * The partial channel object from which the interaction was sent, if applicable.
+     * @type {?GuildChannel}
+     */
     if (data.channel !== undefined) this.channel = data.channel ? new GuildChannel(this._client, data.channel) : undefined;
+
+    /**
+     * The ID of the channel from which the interaction was sent, if applicable.
+     * @type {?string}
+     */
     if (data.channel_id !== undefined) this.channelId = data.channel_id ?? null;
+
+    /**
+     * The guild member object for the invoking user, including permissions, if applicable.
+     * @type {?Member}
+     */
     if (data.member !== undefined) this.member = data.member ? new Member(this._client, data.member) : undefined;
+
+    /**
+     * The user object for the invoking user, if invoked in a DM.
+     * @type {?User}
+     */
     if (data.user !== undefined) this.user = data.user ? new User(this._client, data.user) : undefined;
+
+    /**
+     * The continuation token for responding to the interaction.
+     * @type {string}
+     */
     if (data.token !== undefined) this.token = data.token;
+
+    /**
+     * The read-only version property, always set to 1.
+     * @type {number}
+     */
     if (data.version !== undefined) this.version = data.version ?? 1;
+
+    /**
+     * The message object for components, if applicable.
+     * @type {?Message}
+     */
     if (data.message !== undefined) this.message = data.message ? new Message(this._client, data.message) : undefined;
+
+    /**
+     * The bitwise set of permissions the app has in the source location of the interaction.
+     * @type {?string}
+     */
     if (data.app_permissions !== undefined) this.appPermissions = data.app_permissions ?? null;
+
+    /**
+     * The selected language of the invoking user, if available.
+     * @type {?string}
+     */
     if (data.locale !== undefined) this.locale = data.locale ?? null;
+
+    /**
+     * The preferred locale of the guild, if invoked in a guild.
+     * @type {?string}
+     */
     if (data.guild_locale !== undefined) this.guildLocale = data.guild_locale ?? null;
+
+    /**
+     * For monetized apps, any entitlements for the invoking user, representing access to premium SKUs.
+     * @type {?any[]}
+     */
     if (data.entitlements !== undefined) this.entitlements = data.entitlements ?? null;
+
+    /**
+     * A mapping of installation contexts that the interaction was authorized for, related to user or guild IDs.
+     * @type {?any}
+     */
     if (data.authorizing_integration_owners !== undefined) this.authorizingIntegrationOwners = data.authorizing_integration_owners ?? null;
+
+    /**
+     * The context where the interaction was triggered from, if applicable.
+     * @type {?number}
+     */
     if (data.context !== undefined) this.context = data.context ?? null;
   }
 

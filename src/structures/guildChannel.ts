@@ -12,216 +12,40 @@ import { MessagePayload } from "./messagePayload";
 export class GuildChannel {
   private _client: Client;
 
-  /**
-   * The unique ID of this channel.
-   * @type {string}
-   */
   public id!: string;
-
-  /**
-   * The type of the channel.
-   * @type {number}
-   */
   public type!: number;
-
-  /**
-   * The ID of the guild this channel belongs to, if applicable.
-   * @type {?string}
-   */
   public guildId?: string;
-
-  /**
-   * The sorting position of the channel. Channels with the same position are sorted by ID.
-   * @type {?number}
-   */
   public position?: number;
-
-  /**
-   * Explicit permission overwrites for members and roles.
-   * @type {?any[]}
-   */
   public permissionOverwrites?: any[];
-
-  /**
-   * The name of the channel (1-100 characters).
-   * @type {?string}
-   */
   public name?: string;
-
-  /**
-   * The channel topic (0-4096 characters for GUILD_FORUM and GUILD_MEDIA channels, 0-1024 characters for all others).
-   * @type {?string}
-   */
   public topic?: string;
-
-  /**
-   * Whether the channel is NSFW (Not Safe For Work).
-   * @type {boolean}
-   */
   public nsfw!: boolean;
-
-  /**
-   * The ID of the last message sent in this channel (or thread for GUILD_FORUM or GUILD_MEDIA channels). May not point to an existing or valid message or thread.
-   * @type {?string}
-   */
   public lastMessageId?: string;
-
-  /**
-   * The bitrate (in bits) of the voice channel.
-   * @type {?number}
-   */
   public bitrate?: number;
-
-  /**
-   * The user limit of the voice channel.
-   * @type {?number}
-   */
   public userLimit?: number;
-
-  /**
-   * The amount of seconds a user must wait before sending another message (0-21600); bots and users with permission to manage messages or channels are unaffected.
-   * @type {?number}
-   */
   public rateLimitPerUser?: number;
-
-  /**
-   * The recipients of the DM (Direct Message) channel.
-   * @type {?any[]}
-   */
   public recipients?: any[];
-
-  /**
-   * The icon hash of the group DM.
-   * @type {?string}
-   */
   public icon?: string;
-
-  /**
-   * The ID of the creator of the group DM or thread.
-   * @type {?string}
-   */
   public ownerId?: string;
-
-  /**
-   * The application ID of the group DM creator if it is bot-created.
-   * @type {?string}
-   */
   public applicationId?: string;
-
-  /**
-   * Whether the channel is managed by an application via the `gdm.join` OAuth2 scope for group DM channels.
-   * @type {?boolean}
-   */
   public managed?: boolean;
-
-  /**
-   * The ID of the parent category for a guild channel, or the ID of the text channel this thread was created from.
-   * @type {?string}
-   */
   public parentId?: string;
-
-  /**
-   * When the last pinned message was pinned. This may be null in events such as `GUILD_CREATE` when a message is not pinned.
-   * @type {?string}
-   */
   public lastPinTimestamp?: string;
-
-  /**
-   * The voice region ID for the voice channel. Automatic when set to null.
-   * @type {?string}
-   */
   public rtcRegion?: string;
-
-  /**
-   * The camera video quality mode of the voice channel. Defaults to 1 when not present.
-   * @type {number}
-   */
   public videoQualityMode: number = 1;
-
-  /**
-   * The number of messages (not including the initial message or deleted messages) in a thread.
-   * @type {?number}
-   */
   public messageCount?: number;
-
-  /**
-   * An approximate count of users in a thread. Stops counting at 50.
-   * @type {number}
-   */
   public memberCount!: number;
-
-  /**
-   * Thread-specific fields not needed by other channels.
-   * @type {?any}
-   */
   public threadMetadata?: any;
-
-  /**
-   * The thread member object for the current user, if they have joined the thread. Only included on certain API endpoints.
-   * @type {?Member}
-   */
   public member?: Member;
-
-  /**
-   * The default duration (in minutes) for newly created threads. Threads will stop showing in the channel list after the specified period of inactivity.
-   * Can be set to: 60, 1440, 4320, 10080.
-   * @type {number}
-   */
   public defaultAutoArchiveDuration!: number;
-
-  /**
-   * Computed permissions for the invoking user in the channel, including overwrites. Only included when part of the resolved data received on a slash command interaction.
-   * This does not include implicit permissions, which may need to be checked separately.
-   * @type {?string}
-   */
   public permissions?: string;
-
-  /**
-   * The combined channel flags as a bitfield.
-   * @type {number}
-   */
   public flags!: number;
-
-  /**
-   * The number of messages ever sent in a thread. Similar to `messageCount` but will not decrement when a message is deleted.
-   * @type {?number}
-   */
   public totalMessageSent?: number;
-
-  /**
-   * The set of tags that can be used in a GUILD_FORUM or GUILD_MEDIA channel.
-   * @type {?any[]}
-   */
   public availableTags?: any[];
-
-  /**
-   * The IDs of the set of tags that have been applied to a thread in a GUILD_FORUM or GUILD_MEDIA channel.
-   * @type {?string[]}
-   */
   public appliedTags?: string[];
-
-  /**
-   * The emoji to show in the add reaction button on a thread in a GUILD_FORUM or GUILD_MEDIA channel.
-   * @type {?any}
-   */
   public defaultReactionEmoji?: any;
-
-  /**
-   * The initial rate_limit_per_user to set on newly created threads in a channel. This field is copied to the thread at creation time and does not live update.
-   * @type {number}
-   */
   public defaultThreadRateLimitPerUser!: number;
-
-  /**
-   * The default sort order type used to order posts in GUILD_FORUM and GUILD_MEDIA channels. Defaults to null, indicating that a preferred sort order hasn't been set by a channel admin.
-   * @type {?number}
-   */
   public defaultSortOrder?: number;
-
-  /**
-   * The default forum layout view used to display posts in GUILD_FORUM channels. Defaults to 0, indicating that a layout view has not been set by a channel admin.
-   * @type {number}
-   */
   public defaultForumLayout!: number;
 
   /**
@@ -231,7 +55,6 @@ export class GuildChannel {
    */
   constructor(client: Client, data: any) {
     this._client = client;
-
     this._update(data);
   }
 
@@ -240,41 +63,217 @@ export class GuildChannel {
    * @param {Object} data - The data object containing channel information.
    */
   private _update(data: any) {
-    if (data.id !== undefined) this.id = data.id;
-    if (data.type !== undefined) this.type = data.type;
-    if (data.guild_id !== undefined) this.guildId = data.guild_id ?? null;
-    if (data.position !== undefined) this.position = data.position ?? null;
-    if (data.permission_overwrites !== undefined) this.permissionOverwrites = data.permission_overwrites ?? null;
-    if (data.name !== undefined) this.name = data.name ?? null;
-    if (data.topic !== undefined) this.topic = data.topic ?? null;
-    if (data.nsfw !== undefined) this.nsfw = data.nsfw;
-    if (data.last_message_id !== undefined) this.lastMessageId = data.last_message_id ?? null;
-    if (data.bitrate !== undefined) this.bitrate = data.bitrate ?? null;
-    if (data.user_limit !== undefined) this.userLimit = data.user_limit ?? null;
-    if (data.rate_limit_per_user !== undefined) this.rateLimitPerUser = data.rate_limit_per_user ?? null;
-    if (data.recipients !== undefined) this.recipients = data.recipients ?? null;
-    if (data.icon !== undefined) this.icon = data.icon ?? null;
-    if (data.owner_id !== undefined) this.ownerId = data.owner_id ?? null;
-    if (data.application_id !== undefined) this.applicationId = data.application_id ?? null;
-    if (data.managed !== undefined) this.managed = data.managed ?? null;
-    if (data.parent_id !== undefined) this.parentId = data.parent_id ?? null;
-    if (data.last_pin_timestamp !== undefined) this.lastPinTimestamp = data.last_pin_timestamp ?? null;
-    if (data.rtc_region !== undefined) this.rtcRegion = data.rtc_region ?? null;
-    if (data.video_quality_mode !== undefined) this.videoQualityMode = data.video_quality_mode ?? 1;
-    if (data.message_count !== undefined) this.messageCount = data.message_count ?? null;
-    if (data.member_count !== undefined) this.memberCount = data.member_count;
-    if (data.thread_metadata !== undefined) this.threadMetadata = data.thread_metadata ?? null;
-    if (data.member !== undefined) this.member = data.member ? new Member(this._client, data.member) : undefined;
-    if (data.default_auto_archive_duration !== undefined) this.defaultAutoArchiveDuration = data.default_auto_archive_duration;
-    if (data.permissions !== undefined) this.permissions = data.permissions ?? null;
-    if (data.flags !== undefined) this.flags = data.flags;
-    if (data.total_message_sent !== undefined) this.totalMessageSent = data.total_message_sent ?? null;
-    if (data.available_tags !== undefined) this.availableTags = data.available_tags ?? null;
-    if (data.applied_tags !== undefined) this.appliedTags = data.applied_tags ?? null;
-    if (data.default_reaction_emoji !== undefined) this.defaultReactionEmoji = data.default_reaction_emoji ?? null;
-    if (data.default_thread_rate_limit_per_user !== undefined) this.defaultThreadRateLimitPerUser = data.default_thread_rate_limit_per_user;
-    if (data.default_sort_order !== undefined) this.defaultSortOrder = data.default_sort_order ?? null;
-    if (data.default_forum_layout !== undefined) this.defaultForumLayout = data.default_forum_layout;
+    /**
+     * The unique ID of this channel.
+     * @type {string}
+     */
+    this.id = data.id;
+
+    /**
+     * The type of the channel.
+     * @type {number}
+     */
+    this.type = data.type;
+
+    /**
+     * The ID of the guild this channel belongs to, if applicable.
+     * @type {?string}
+     */
+    this.guildId = data.guild_id ?? null;
+
+    /**
+     * The sorting position of the channel. Channels with the same position are sorted by ID.
+     * @type {?number}
+     */
+    this.position = data.position ?? null;
+
+    /**
+     * Explicit permission overwrites for members and roles.
+     * @type {?any[]}
+     */
+    this.permissionOverwrites = data.permission_overwrites ?? null;
+
+    /**
+     * The name of the channel (1-100 characters).
+     * @type {?string}
+     */
+    this.name = data.name ?? null;
+
+    /**
+     * The channel topic (0-4096 characters for GUILD_FORUM and GUILD_MEDIA channels, 0-1024 characters for all others).
+     * @type {?string}
+     */
+    this.topic = data.topic ?? null;
+
+    /**
+     * Whether the channel is NSFW (Not Safe For Work).
+     * @type {boolean}
+     */
+    this.nsfw = data.nsfw;
+
+    /**
+     * The ID of the last message sent in this channel (or thread for GUILD_FORUM or GUILD_MEDIA channels). May not point to an existing or valid message or thread.
+     * @type {?string}
+     */
+    this.lastMessageId = data.last_message_id ?? null;
+
+    /**
+     * The bitrate (in bits) of the voice channel.
+     * @type {?number}
+     */
+    this.bitrate = data.bitrate ?? null;
+
+    /**
+     * The user limit of the voice channel.
+     * @type {?number}
+     */
+    this.userLimit = data.user_limit ?? null;
+
+    /**
+     * The amount of seconds a user must wait before sending another message (0-21600); bots and users with permission to manage messages or channels are unaffected.
+     * @type {?number}
+     */
+    this.rateLimitPerUser = data.rate_limit_per_user ?? null;
+
+    /**
+     * The recipients of the DM (Direct Message) channel.
+     * @type {?any[]}
+     */
+    this.recipients = data.recipients ?? null;
+
+    /**
+     * The icon hash of the group DM.
+     * @type {?string}
+     */
+    this.icon = data.icon ?? null;
+
+    /**
+     * The ID of the creator of the group DM or thread.
+     * @type {?string}
+     */
+    this.ownerId = data.owner_id ?? null;
+
+    /**
+     * The application ID of the group DM creator if it is bot-created.
+     * @type {?string}
+     */
+    this.applicationId = data.application_id ?? null;
+
+    /**
+     * Whether the channel is managed by an application via the `gdm.join` OAuth2 scope for group DM channels.
+     * @type {?boolean}
+     */
+    this.managed = data.managed ?? null;
+
+    /**
+     * The ID of the parent category for a guild channel, or the ID of the text channel this thread was created from.
+     * @type {?string}
+     */
+    this.parentId = data.parent_id ?? null;
+
+    /**
+     * When the last pinned message was pinned. This may be null in events such as `GUILD_CREATE` when a message is not pinned.
+     * @type {?string}
+     */
+    this.lastPinTimestamp = data.last_pin_timestamp ?? null;
+
+    /**
+     * The voice region ID for the voice channel. Automatic when set to null.
+     * @type {?string}
+     */
+    this.rtcRegion = data.rtc_region ?? null;
+
+    /**
+     * The camera video quality mode of the voice channel. Defaults to 1 when not present.
+     * @type {number}
+     */
+    this.videoQualityMode = data.video_quality_mode ?? 1;
+
+    /**
+     * The number of messages (not including the initial message or deleted messages) in a thread.
+     * @type {?number}
+     */
+    this.messageCount = data.message_count ?? null;
+
+    /**
+     * An approximate count of users in a thread. Stops counting at 50.
+     * @type {number}
+     */
+    this.memberCount = data.member_count;
+
+    /**
+     * Thread-specific fields not needed by other channels.
+     * @type {?any}
+     */
+    this.threadMetadata = data.thread_metadata ?? null;
+
+    /**
+     * The thread member object for the current user, if they have joined the thread. Only included on certain API endpoints.
+     * @type {?Member}
+     */
+    this.member = data.member ? new Member(this._client, data.member) : undefined;
+
+    /**
+     * The default duration (in minutes) for newly created threads. Threads will stop showing in the channel list after the specified period of inactivity.
+     * Can be set to: 60, 1440, 4320, 10080.
+     * @type {number}
+     */
+    this.defaultAutoArchiveDuration = data.default_auto_archive_duration;
+
+    /**
+     * Computed permissions for the invoking user in the channel, including overwrites. Only included when part of the resolved data received on a slash command interaction.
+     * This does not include implicit permissions, which may need to be checked separately.
+     * @type {?string}
+     */
+    this.permissions = data.permissions ?? null;
+
+    /**
+     * The combined channel flags as a bitfield.
+     * @type {number}
+     */
+    this.flags = data.flags;
+
+    /**
+     * The number of messages ever sent in a thread. Similar to `messageCount` but will not decrement when a message is deleted.
+     * @type {?number}
+     */
+    this.totalMessageSent = data.total_message_sent ?? null;
+
+    /**
+     * The set of tags that can be used in a GUILD_FORUM or GUILD_MEDIA channel.
+     * @type {?any[]}
+     */
+    this.availableTags = data.available_tags ?? null;
+
+    /**
+     * The IDs of the set of tags that have been applied to a thread in a GUILD_FORUM or GUILD_MEDIA channel.
+     * @type {?string[]}
+     */
+    this.appliedTags = data.applied_tags ?? null;
+
+    /**
+     * The emoji to show in the add reaction button on a thread in a GUILD_FORUM or GUILD_MEDIA channel.
+     * @type {?any}
+     */
+    this.defaultReactionEmoji = data.default_reaction_emoji ?? null;
+
+    /**
+     * The initial rate_limit_per_user to set on newly created threads in a channel. This field is copied to the thread at creation time and does not live update.
+     * @type {number}
+     */
+    this.defaultThreadRateLimitPerUser = data.default_thread_rate_limit_per_user;
+
+    /**
+     * The default sort order type used to order posts in GUILD_FORUM and GUILD_MEDIA channels. Defaults to null, indicating that a preferred sort order hasn't been set by a channel admin.
+     * @type {?number}
+     */
+    this.defaultSortOrder = data.default_sort_order ?? null;
+
+    /**
+     * The default forum layout view used to display posts in GUILD_FORUM channels. Defaults to 0, indicating that a layout view has not been set by a channel admin.
+     * @type {number}
+     */
+    this.defaultForumLayout = data.default_forum_layout;
   }
 
   /**

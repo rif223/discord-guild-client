@@ -9,77 +9,17 @@ import { RolePayload } from "./rolePayload";
 export class Role {
     private _client: Client;
 
-    /**
-     * The unique identifier for the role.
-     * @type {string}
-     */
     public id!: string;
-
-    /**
-     * The name of the role.
-     * @type {string}
-     */
     public name!: string;
-
-    /**
-     * The color of the role represented as an integer.
-     * @type {number}
-     */
     public color!: number;
-
-    /**
-     * Whether this role is pinned in the user listing.
-     * @type {boolean}
-     */
     public hoist!: boolean;
-
-    /**
-     * The hash of the role icon, or `undefined` if no icon is set.
-     * @type {string | undefined}
-     */
     public icon?: string;
-
-    /**
-     * The unicode emoji associated with the role, or `undefined` if no emoji is set.
-     * @type {string | undefined}
-     */
     public unicodeEmoji?: string;
-
-    /**
-     * The position of the role in the role hierarchy.
-     * Roles with the same position are sorted by ID.
-     * @type {number}
-     */
     public position!: number;
-
-    /**
-     * The permission bit set for this role.
-     * @type {string}
-     */
     public permissions!: string;
-
-    /**
-     * Whether this role is managed by an integration.
-     * @type {boolean}
-     */
     public managed!: boolean;
-
-    /**
-     * Whether this role is mentionable.
-     * @type {boolean}
-     */
     public mentionable!: boolean;
-
-    /**
-     * The tags associated with this role, or `undefined` if no tags are set.
-     * @type {any | undefined}
-     */
     public tags?: any;
-
-    /**
-     * The role flags combined as a bitfield.
-     * @type {number}
-     */
     public flags!: number;
 
     /**
@@ -98,17 +38,77 @@ export class Role {
      * @param {Object} data - The data object containing role information.
      */
     private _update(data: any) {
+        /**
+         * The unique identifier for the role.
+         * @type {string}
+         */
         this.id = data.id;
+
+        /**
+         * The name of the role.
+         * @type {string}
+         */
         this.name = data.name;
+
+        /**
+         * The color of the role represented as an integer.
+         * @type {number}
+         */
         this.color = data.color;
+
+        /**
+         * Whether this role is pinned in the user listing.
+         * @type {boolean}
+         */
         this.hoist = data.hoist;
+
+        /**
+         * The hash of the role icon, or `undefined` if no icon is set.
+         * @type {string | undefined}
+         */
         this.icon = data.icon;
+
+        /**
+         * The unicode emoji associated with the role, or `undefined` if no emoji is set.
+         * @type {string | undefined}
+         */
         this.unicodeEmoji = data.unicode_emoji;
+
+        /**
+         * The position of the role in the role hierarchy.
+         * Roles with the same position are sorted by ID.
+         * @type {number}
+         */
         this.position = data.position;
+
+        /**
+         * The permission bit set for this role.
+         * @type {string}
+         */
         this.permissions = data.permissions;
+
+        /**
+         * Whether this role is managed by an integration.
+         * @type {boolean}
+         */
         this.managed = data.managed;
+
+        /**
+         * Whether this role is mentionable.
+         * @type {boolean}
+         */
         this.mentionable = data.mentionable;
+
+        /**
+         * The tags associated with this role, or `undefined` if no tags are set.
+         * @type {any | undefined}
+         */
         this.tags = data.tags;
+
+        /**
+         * The role flags combined as a bitfield.
+         * @type {number}
+         */
         this.flags = data.flags;
     }
 

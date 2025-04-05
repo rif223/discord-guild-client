@@ -7,22 +7,8 @@ import { Client } from '../client';
  */
 export class WebSocketClient {
 
-    /**
-     * WebSocket client instance used to handle real-time events and updates from the server.
-     * @type {WebSocket}
-     */
     public ws: WebSocket;
-
-    /**
-     * Represents the main client for interacting with the API and WebSocket.
-     * @type {Client}
-     */
     public _client: Client;
-
-    /**
-     * Indicates whether the WebSocket connection is established or not.
-     * @type {boolean}
-     */
     public conn: boolean;
 
     /**
@@ -41,13 +27,26 @@ export class WebSocketClient {
             host = 'ws://' + host.substring(7);
         }
 
-        // Initialize the WebSocket connection.
+        /**
+         * WebSocket client instance used to handle real-time events and updates from the server.
+         * @type {WebSocket}
+         */
         this.ws = new WebSocket(host + "/ws", {
             headers: {
                 authorization: token
             }
         });
+
+        /**
+         * Represents the main client for interacting with the API and WebSocket.
+         * @type {Client}
+         */
         this._client = client;
+
+        /**
+         * Indicates whether the WebSocket connection is established or not.
+         * @type {boolean}
+         */
         this.conn = false;
 
         // Setup WebSocket event handlers.
@@ -68,7 +67,7 @@ export class WebSocketClient {
             this.ws.send("Connected: " + new Date());
             console.info("Connected: " + new Date());
             this.conn = true;
-        } catch {}
+        } catch { }
     }
 
     /**

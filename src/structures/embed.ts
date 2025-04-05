@@ -7,82 +7,18 @@ import { Client } from "../client";
 export class Embed {
     private _client: Client;
 
-    /**
-     * The title of the embed.
-     * @type {string | undefined}
-     */
     public title?: string;
-
-    /**
-     * The type of the embed. Default is "rich", but other types include "image", "video", etc.
-     * @type {string | undefined}
-     */
     public type?: string;
-
-    /**
-     * The description text of the embed.
-     * @type {string | undefined}
-     */
     public description?: string;
-
-    /**
-     * The URL associated with the embed.
-     * @type {string | undefined}
-     */
     public url?: string;
-
-    /**
-     * The timestamp of the embed in ISO8601 format.
-     * @type {string | undefined}
-     */
     public timestamp?: string;
-
-    /**
-     * The color code of the embed, usually represented as an integer.
-     * @type {number | undefined}
-     */
     public color?: number;
-
-    /**
-     * The footer section of the embed, typically containing text and an optional icon.
-     * @type {EmbedFooter | undefined}
-     */
     public footer?: EmbedFooter;
-
-    /**
-     * The image section of the embed, typically containing a URL to an image.
-     * @type {EmbedImage | undefined}
-     */
     public image?: EmbedImage;
-
-    /**
-     * The thumbnail section of the embed, typically a small image preview.
-     * @type {EmbedThumbnail | undefined}
-     */
     public thumbnail?: EmbedThumbnail;
-
-    /**
-     * The video section of the embed, containing video information (optional).
-     * @type {EmbedVideo | undefined}
-     */
     public video?: EmbedVideo;
-
-    /**
-     * The provider of the embed, which includes the name and URL of the service that generated the embed (optional).
-     * @type {EmbedProvider | undefined}
-     */
     public provider?: EmbedProvider;
-
-    /**
-     * The author section of the embed, typically containing the author's name, URL, and an optional icon.
-     * @type {EmbedAuthor | undefined}
-     */
     public author?: EmbedAuthor;
-
-    /**
-     * An array of field objects, which add custom structured data to the embed. Maximum of 25 fields.
-     * @type {EmbedField[] | undefined}
-     */
     public fields?: EmbedField[];
 
     /**
@@ -100,18 +36,82 @@ export class Embed {
      * @param {Object} data - The data object containing embed information.
      */
     private _update(data: any) {
+        /**
+         * The title of the embed.
+         * @type {string | undefined}
+         */
         this.title = data.title;
+
+        /**
+         * The type of the embed. Default is "rich", but other types include "image", "video", etc.
+         * @type {string | undefined}
+         */
         this.type = data.type || "rich";
+
+        /**
+         * The description text of the embed.
+         * @type {string | undefined}
+         */
         this.description = data.description;
+
+        /**
+         * The URL associated with the embed.
+         * @type {string | undefined}
+         */
         this.url = data.url;
+
+        /**
+         * The timestamp of the embed in ISO8601 format.
+         * @type {string | undefined}
+         */
         this.timestamp = data.timestamp;
+
+        /**
+         * The color code of the embed, usually represented as an integer.
+         * @type {number | undefined}
+         */
         this.color = data.color;
+
+        /**
+         * The footer section of the embed, typically containing text and an optional icon.
+         * @type {EmbedFooter | undefined}
+         */
         this.footer = data.footer ? new EmbedFooter(data.footer) : undefined;
+
+        /**
+         * The image section of the embed, typically containing a URL to an image.
+         * @type {EmbedImage | undefined}
+         */
         this.image = data.image ? new EmbedImage(data.image) : undefined;
+
+        /**
+         * The thumbnail section of the embed, typically a small image preview.
+         * @type {EmbedThumbnail | undefined}
+         */
         this.thumbnail = data.thumbnail ? new EmbedThumbnail(data.thumbnail) : undefined;
+
+        /**
+         * The video section of the embed, containing video information (optional).
+         * @type {EmbedVideo | undefined}
+         */
         this.video = data.video ? new EmbedVideo(data.video) : undefined;
+
+        /**
+         * The provider of the embed, which includes the name and URL of the service that generated the embed (optional).
+         * @type {EmbedProvider | undefined}
+         */
         this.provider = data.provider ? new EmbedProvider(data.provider) : undefined;
+
+        /**
+         * The author section of the embed, typically containing the author's name, URL, and an optional icon.
+         * @type {EmbedAuthor | undefined}
+         */
         this.author = data.author ? new EmbedAuthor(data.author) : undefined;
+
+        /**
+         * An array of field objects, which add custom structured data to the embed. Maximum of 25 fields.
+         * @type {EmbedField[] | undefined}
+         */
         this.fields = data.fields ? data.fields.map((field: any) => new EmbedField(field)) : [];
     }
 }
@@ -121,22 +121,8 @@ export class Embed {
  * The footer typically contains small, supplementary text and optionally an icon.
  */
 export class EmbedFooter {
-    /**
-     * The footer text.
-     * @type {string}
-     */
     public text!: string;
-
-    /**
-     * The URL of the footer icon (optional).
-     * @type {string | undefined}
-     */
     public icon_url?: string;
-
-    /**
-     * A proxied URL of the footer icon (optional).
-     * @type {string | undefined}
-     */
     public proxy_icon_url?: string;
 
     /**
@@ -144,8 +130,22 @@ export class EmbedFooter {
      * @param {Object} data - The data representing the footer.
      */
     constructor(data: any) {
+        /**
+         * The footer text.
+         * @type {string}
+         */
         this.text = data.text;
+
+        /**
+         * The URL of the footer icon (optional).
+         * @type {string | undefined}
+         */
         this.icon_url = data.icon_url;
+
+        /**
+         * A proxied URL of the footer icon (optional).
+         * @type {string | undefined}
+         */
         this.proxy_icon_url = data.proxy_icon_url;
     }
 }
@@ -155,28 +155,9 @@ export class EmbedFooter {
  * Contains a URL to an image and optional dimensions.
  */
 export class EmbedImage {
-    /**
-     * The URL of the image.
-     * @type {string}
-     */
     public url!: string;
-
-    /**
-     * A proxied URL of the image (optional).
-     * @type {string | undefined}
-     */
     public proxy_url?: string;
-
-    /**
-     * The height of the image in pixels (optional).
-     * @type {number | undefined}
-     */
     public height?: number;
-
-    /**
-     * The width of the image in pixels (optional).
-     * @type {number | undefined}
-     */
     public width?: number;
 
     /**
@@ -184,9 +165,28 @@ export class EmbedImage {
      * @param {Object} data - The data representing the image.
      */
     constructor(data: any) {
+        /**
+         * The URL of the image.
+         * @type {string}
+         */
         this.url = data.url;
+
+        /**
+         * A proxied URL of the image (optional).
+         * @type {string | undefined}
+         */
         this.proxy_url = data.proxy_url;
+
+        /**
+         * The height of the image in pixels (optional).
+         * @type {number | undefined}
+         */
         this.height = data.height;
+
+        /**
+         * The width of the image in pixels (optional).
+         * @type {number | undefined}
+         */
         this.width = data.width;
     }
 }
@@ -196,28 +196,9 @@ export class EmbedImage {
  * Typically a small image preview at the top right of the embed.
  */
 export class EmbedThumbnail {
-    /**
-     * The URL of the thumbnail image.
-     * @type {string}
-     */
     public url!: string;
-
-    /**
-     * A proxied URL of the thumbnail image (optional).
-     * @type {string | undefined}
-     */
     public proxy_url?: string;
-
-    /**
-     * The height of the thumbnail image in pixels (optional).
-     * @type {number | undefined}
-     */
     public height?: number;
-
-    /**
-     * The width of the thumbnail image in pixels (optional).
-     * @type {number | undefined}
-     */
     public width?: number;
 
     /**
@@ -225,9 +206,28 @@ export class EmbedThumbnail {
      * @param {Object} data - The data representing the thumbnail.
      */
     constructor(data: any) {
+        /**
+         * The URL of the thumbnail image.
+         * @type {string}
+         */
         this.url = data.url;
+
+        /**
+         * A proxied URL of the thumbnail image (optional).
+         * @type {string | undefined}
+         */
         this.proxy_url = data.proxy_url;
+
+        /**
+         * The height of the thumbnail image in pixels (optional).
+         * @type {number | undefined}
+         */
         this.height = data.height;
+
+        /**
+         * The width of the thumbnail image in pixels (optional).
+         * @type {number | undefined}
+         */
         this.width = data.width;
     }
 }
@@ -237,28 +237,9 @@ export class EmbedThumbnail {
  * Contains a URL to a video and optional dimensions.
  */
 export class EmbedVideo {
-    /**
-     * The URL of the video (optional).
-     * @type {string | undefined}
-     */
     public url?: string;
-
-    /**
-     * A proxied URL of the video (optional).
-     * @type {string | undefined}
-     */
     public proxy_url?: string;
-
-    /**
-     * The height of the video in pixels (optional).
-     * @type {number | undefined}
-     */
     public height?: number;
-
-    /**
-     * The width of the video in pixels (optional).
-     * @type {number | undefined}
-     */
     public width?: number;
 
     /**
@@ -266,9 +247,28 @@ export class EmbedVideo {
      * @param {Object} data - The data representing the video.
      */
     constructor(data: any) {
+        /**
+         * The URL of the video (optional).
+         * @type {string | undefined}
+         */
         this.url = data.url;
+
+        /**
+         * A proxied URL of the video (optional).
+         * @type {string | undefined}
+         */
         this.proxy_url = data.proxy_url;
+
+        /**
+         * The height of the video in pixels (optional).
+         * @type {number | undefined}
+         */
         this.height = data.height;
+
+        /**
+         * The width of the video in pixels (optional).
+         * @type {number | undefined}
+         */
         this.width = data.width;
     }
 }
@@ -278,16 +278,7 @@ export class EmbedVideo {
  * Typically contains the name and URL of the service that generated the embed.
  */
 export class EmbedProvider {
-    /**
-     * The name of the provider (optional).
-     * @type {string | undefined}
-     */
     public name?: string;
-
-    /**
-     * The URL of the provider (optional).
-     * @type {string | undefined}
-     */
     public url?: string;
 
     /**
@@ -295,7 +286,16 @@ export class EmbedProvider {
      * @param {Object} data - The data representing the provider.
      */
     constructor(data: any) {
+        /**
+         * The name of the provider (optional).
+         * @type {string | undefined}
+         */
         this.name = data.name;
+
+        /**
+         * The URL of the provider (optional).
+         * @type {string | undefined}
+         */
         this.url = data.url;
     }
 }
@@ -305,28 +305,9 @@ export class EmbedProvider {
  * Contains the author's name, URL, and an optional icon.
  */
 export class EmbedAuthor {
-    /**
-     * The name of the author.
-     * @type {string}
-     */
     public name!: string;
-
-    /**
-     * The URL of the author (optional).
-     * @type {string | undefined}
-     */
     public url?: string;
-
-    /**
-     * The URL of the author's icon (optional).
-     * @type {string | undefined}
-     */
     public icon_url?: string;
-
-    /**
-     * A proxied URL of the author's icon (optional).
-     * @type {string | undefined}
-     */
     public proxy_icon_url?: string;
 
     /**
@@ -334,9 +315,28 @@ export class EmbedAuthor {
      * @param {Object} data - The data representing the author.
      */
     constructor(data: any) {
+        /**
+         * The name of the author.
+         * @type {string}
+         */
         this.name = data.name;
+
+        /**
+         * The URL of the author (optional).
+         * @type {string | undefined}
+         */
         this.url = data.url;
+
+        /**
+         * The URL of the author's icon (optional).
+         * @type {string | undefined}
+         */
         this.icon_url = data.icon_url;
+
+        /**
+         * A proxied URL of the author's icon (optional).
+         * @type {string | undefined}
+         */
         this.proxy_icon_url = data.proxy_icon_url;
     }
 }
@@ -346,22 +346,8 @@ export class EmbedAuthor {
  * Each field contains a name, value, and an optional inline setting.
  */
 export class EmbedField {
-    /**
-     * The name of the field.
-     * @type {string}
-     */
     public name!: string;
-
-    /**
-     * The value of the field.
-     * @type {string}
-     */
     public value!: string;
-
-    /**
-     * Whether the field should be displayed inline.
-     * @type {boolean | undefined}
-     */
     public inline?: boolean;
 
     /**
@@ -369,8 +355,22 @@ export class EmbedField {
      * @param {Object} data - The data representing the field.
      */
     constructor(data: any) {
+        /**
+         * The name of the field.
+         * @type {string}
+         */
         this.name = data.name;
+
+        /**
+         * The value of the field.
+         * @type {string}
+         */
         this.value = data.value;
+
+        /**
+         * Whether the field should be displayed inline.
+         * @type {boolean | undefined}
+         */
         this.inline = data.inline;
     }
 }

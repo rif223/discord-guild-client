@@ -9,82 +9,18 @@ import { User } from "./user";
 export class Member {
     private _client: Client;
 
-    /**
-     * The user object that this guild member represents.
-     * @type {User}
-     */
     public user?: User;
-
-    /**
-     * The user's guild nickname.
-     * @type {string | undefined}
-     */
     public nick?: string;
-
-    /**
-     * The hash of the member's guild avatar.
-     * @type {string | undefined}
-     */
     public avatar?: string;
-
-    /**
-     * An array of role IDs assigned to the member.
-     * @type {string[]}
-     */
     public roles: string[] = [];
-
-    /**
-     * The timestamp when the user joined the guild (ISO8601 format).
-     * @type {string}
-     */
     public joinedAt!: string;
-
-    /**
-     * The timestamp when the user started boosting the guild, or `undefined` if not boosting.
-     * @type {string | undefined}
-     */
     public premiumSince?: string;
-
-    /**
-     * Whether the user is deafened in voice channels.
-     * @type {boolean}
-     */
     public deaf!: boolean;
-
-    /**
-     * Whether the user is muted in voice channels.
-     * @type {boolean}
-     */
     public mute!: boolean;
-
-    /**
-     * Guild member flags represented as a bit set.
-     * @type {number}
-     */
     public flags!: number;
-
-    /**
-     * Whether the user has not yet passed the guild's Membership Screening requirements.
-     * @type {boolean | undefined}
-     */
     public pending?: boolean;
-
-    /**
-     * Total permissions of the member in the channel, including overwrites.
-     * @type {string | undefined}
-     */
     public permissions?: string;
-
-    /**
-     * When the user's timeout will expire and the user will be able to communicate in the guild again, or `null` if the user is not timed out.
-     * @type {string | null | undefined}
-     */
     public communicationDisabledUntil?: string | null;
-
-    /**
-     * Data for the member's guild avatar decoration, or `undefined` if no decoration is set.
-     * @type {any | undefined}
-     */
     public avatarDecorationData?: any;
 
     /**
@@ -103,18 +39,82 @@ export class Member {
      * @param {Object} data - The data object containing member information.
      */
     private _update(data: any) {
+        /**
+         * The user object that this guild member represents.
+         * @type {User}
+         */
         this.user = data.user ? new User(this._client, data.user) : undefined;
+
+        /**
+         * The user's guild nickname.
+         * @type {string | undefined}
+         */
         this.nick = data.nick;
+
+        /**
+         * The hash of the member's guild avatar.
+         * @type {string | undefined}
+         */
         this.avatar = data.avatar;
+
+        /**
+         * An array of role IDs assigned to the member.
+         * @type {string[]}
+         */
         this.roles = data.roles || [];
+
+        /**
+         * The timestamp when the user joined the guild (ISO8601 format).
+         * @type {string}
+         */
         this.joinedAt = data.joined_at;
+
+        /**
+         * The timestamp when the user started boosting the guild, or `undefined` if not boosting.
+         * @type {string | undefined}
+         */
         this.premiumSince = data.premium_since;
+
+        /**
+         * Whether the user is deafened in voice channels.
+         * @type {boolean}
+         */
         this.deaf = data.deaf;
+
+        /**
+         * Whether the user is muted in voice channels.
+         * @type {boolean}
+         */
         this.mute = data.mute;
+
+        /**
+         * Guild member flags represented as a bit set.
+         * @type {number}
+         */
         this.flags = data.flags;
+
+        /**
+         * Whether the user has not yet passed the guild's Membership Screening requirements.
+         * @type {boolean | undefined}
+         */
         this.pending = data.pending;
+
+        /**
+         * Total permissions of the member in the channel, including overwrites.
+         * @type {string | undefined}
+         */
         this.permissions = data.permissions;
+
+        /**
+         * When the user's timeout will expire and the user will be able to communicate in the guild again, or `null` if the user is not timed out.
+         * @type {string | null | undefined}
+         */
         this.communicationDisabledUntil = data.communication_disabled_until ?? null;
+
+        /**
+         * Data for the member's guild avatar decoration, or `undefined` if no decoration is set.
+         * @type {any | undefined}
+         */
         this.avatarDecorationData = data.avatar_decoration_data;
     }
 
@@ -325,6 +325,5 @@ export class Member {
             throw error;  // Re-throw error for higher-level handling
         }
     }
-
 
 }

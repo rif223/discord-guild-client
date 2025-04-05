@@ -154,78 +154,12 @@ export interface ClientEvents {
  */
 export class Client extends EventEmitter {
 
-  /**
-   * WebSocket client instance used to handle real-time events and updates from the server.
-   * @type {WebSocketClient}
-   */
   public ws: WebSocketClient;
-
-  /**
-   * REST API client instance used for making HTTP requests to the server.
-   * @type {RestApi}
-   */
   public rest: RestApi;
-
-  /**
-   * Represents the bot user object for the client.
-   * This property is initialized asynchronously and may be undefined until the initialization is complete.
-   * @type {User}
-   */
   public user?: User;
-
-  /**
-   * Represents the guild object for the client.
-   * This property is initialized asynchronously and may be undefined until the initialization is complete.
-   * @type {Guild}
-   */
   public guild?: Guild;
-
-  /**
-   * A collection of channels associated with the client.
-   * 
-   * This property is initialized asynchronously after the client is created and
-   * contains all channels associated with the current guild.
-   * 
-   * The collection is managed by the `Collection` class and uses the channel ID
-   * as the key to access individual channels.
-   * 
-   * Note: The `channels` property may be `undefined` if the initialization is not
-   * yet complete or if there was an error fetching the channels. Ensure to check
-   * the state of this property before attempting to access channels.
-   * @type {Collection<GuildChannel> | undefined}
-   */
   public channels?: Collection<GuildChannel> | undefined;
-
-  /**
-   * A collection of members associated with the client.
-   * 
-   * This property is initialized asynchronously after the client is created and
-   * contains all members associated with the current guild.
-   * 
-   * The collection is managed by the `Collection` class and uses the member ID
-   * as the key to access individual members.
-   * 
-   * Note: The `members` property may be `undefined` if the initialization is not
-   * yet complete or if there was an error fetching the members. Ensure to check
-   * the state of this property before attempting to access members.
-   * @type {Collection<Member> | undefined}
-   */
   public members?: Collection<Member> | undefined;
-
-  /**
-   * A collection of roles associated with the client.
-   * 
-   * This property is initialized asynchronously after the client is created and
-   * contains all roles associated with the current guild.
-   * 
-   * The collection is managed by the `Collection` class and uses the role ID
-   * as the key to access individual roles.
-   * 
-   * Note: The `roles` property may be `undefined` if the initialization is not
-   * yet complete or if there was an error fetching the roles. Ensure to check
-   * the state of this property before attempting to access roles.
-   * @type {Collection<Role> | undefined}
-   */
   public roles?: Collection<Role> | undefined;
 
   /**
@@ -237,11 +171,65 @@ export class Client extends EventEmitter {
    */
   constructor(host: string, token: string) {
     super();
+
+    /**
+     * WebSocket client instance used to handle real-time events and updates from the server.
+     * @type {WebSocketClient}
+     */
     this.ws = new WebSocketClient(this, host, token);
+
+    /**
+     * REST API client instance used for making HTTP requests to the server.
+     * @type {RestApi}
+     */
     this.rest = new RestApi(host, token);
 
+    /**
+     * A collection of channels associated with the client.
+     * 
+     * This property is initialized asynchronously after the client is created and
+     * contains all channels associated with the current guild.
+     * 
+     * The collection is managed by the `Collection` class and uses the channel ID
+     * as the key to access individual channels.
+     * 
+     * Note: The `channels` property may be `undefined` if the initialization is not
+     * yet complete or if there was an error fetching the channels. Ensure to check
+     * the state of this property before attempting to access channels.
+     * @type {Collection<GuildChannel> | undefined}
+     */
     this.channels = new Collection<GuildChannel>(this, GuildChannel);
+
+    /**
+     * A collection of members associated with the client.
+     * 
+     * This property is initialized asynchronously after the client is created and
+     * contains all members associated with the current guild.
+     * 
+     * The collection is managed by the `Collection` class and uses the member ID
+     * as the key to access individual members.
+     * 
+     * Note: The `members` property may be `undefined` if the initialization is not
+     * yet complete or if there was an error fetching the members. Ensure to check
+     * the state of this property before attempting to access members.
+     * @type {Collection<Member> | undefined}
+     */
     this.members = new Collection<Member>(this, Member);
+
+    /**
+     * A collection of roles associated with the client.
+     * 
+     * This property is initialized asynchronously after the client is created and
+     * contains all roles associated with the current guild.
+     * 
+     * The collection is managed by the `Collection` class and uses the role ID
+     * as the key to access individual roles.
+     * 
+     * Note: The `roles` property may be `undefined` if the initialization is not
+     * yet complete or if there was an error fetching the roles. Ensure to check
+     * the state of this property before attempting to access roles.
+     * @type {Collection<Role> | undefined}
+     */
     this.roles = new Collection<Role>(this, Role);
 
     this.initialize();
@@ -277,8 +265,18 @@ export class Client extends EventEmitter {
       this.roles?.add(role.id, role);
     }
 
+    /**
+     * Represents the bot user object for the client.
+     * This property is initialized asynchronously and may be undefined until the initialization is complete.
+     * @type {User}
+     */
     this.user = new User(this, await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.user()));
 
+    /**
+     * Represents the guild object for the client.
+     * This property is initialized asynchronously and may be undefined until the initialization is complete.
+     * @type {Guild}
+     */
     this.guild = new Guild(this, await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guild()));
 
     // Ready Events
