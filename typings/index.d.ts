@@ -2894,6 +2894,7 @@ declare module "client" {
     import { EventEmitter } from "events";
     import { Guild } from "structures/guild";
     import { RestApi } from "rest/request";
+    import { WebSocketClient } from "ws/websocket";
     import { Message } from "structures/message";
     import { Role } from "structures/role";
     import { GuildChannel } from "structures/guildChannel";
@@ -3024,7 +3025,7 @@ declare module "client" {
          * WebSocket client instance used to handle real-time events and updates from the server.
          * @type {WebSocketClient}
          */
-        private ws;
+        ws: WebSocketClient;
         /**
          * REST API client instance used for making HTTP requests to the server.
          * @type {RestApi}
