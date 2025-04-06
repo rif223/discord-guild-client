@@ -26,6 +26,7 @@ export class RestApi {
         /**
          * Axios instance used to handle HTTP requests and responses.
          * @type {Axios}
+         * @public
          */
         this.axios = axios.create(conf);
     }
