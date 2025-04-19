@@ -139,67 +139,6 @@ declare module "rest/request" {
         request(method: keyof typeof RestApi.HttpMethod, url: string, body?: any): Promise<any>;
     }
 }
-declare module "ws/websocket" {
-    import WebSocket, { ErrorEvent } from 'ws';
-    import { Client } from "client";
-    /**
-     * The `WebSocketClient` class handles the creation and management of a WebSocket connection to a given server.
-     * It can send and receive messages, handle errors, and close the connection gracefully.
-     */
-    export class WebSocketClient {
-        ws: WebSocket;
-        _client: Client;
-        conn: boolean;
-        /**
-         * Creates an instance of `WebSocketClient`.
-         *
-         * @param {Client} client - The main client instance that manages the bot or app's connection.
-         * @param {string} host - The WebSocket server host URL (http or https will be converted to ws or wss).
-         * @param {string} token - The authorization token used to authenticate with the WebSocket server.
-         */
-        constructor(client: Client, host: string, token: string);
-        /**
-         * Event handler for the "open" WebSocket event.
-         *
-         * This function is called when the WebSocket connection is successfully established.
-         * It sends a "Connected" message to the server and logs the connection status.
-         */
-        open(): void;
-        /**
-         * Event handler for the "message" WebSocket event.
-         *
-         * This function is called when a message is received from the WebSocket server.
-         * If the message is valid JSON, it triggers the client event registration process. Otherwise, it logs the message.
-         *
-         * @param {any} d - The raw message data received from the WebSocket server.
-         */
-        message(d: any): void;
-        /**
-         * Event handler for the "error" WebSocket event.
-         *
-         * This function is called when an error occurs on the WebSocket connection.
-         * It logs the error message to the console.
-         *
-         * @param {ErrorEvent} err - The error event containing details about the WebSocket error.
-         */
-        error(err: ErrorEvent): void;
-        /**
-         * Event handler for the "close" WebSocket event.
-         *
-         * This function is called when the WebSocket connection is closed.
-         * If the connection was established earlier, it sends a "Disconnected" message and logs the event.
-         * Otherwise, it logs a connection failure.
-         */
-        close(): void;
-        /**
-         * Helper function to check if a string is valid JSON.
-         *
-         * @param {string} data - The string to check for valid JSON format.
-         * @returns {boolean} Returns true if the string is a valid JSON object or array, otherwise false.
-         */
-        isJson(data: string): boolean;
-    }
-}
 declare module "structures/user" {
     import { Client } from "client";
     /**
@@ -1576,6 +1515,68 @@ declare module "structures/guildBan" {
         private _update;
     }
 }
+declare module "ws/websocket" {
+    import WebSocket, { ErrorEvent } from 'ws';
+    import { Client } from "client";
+    /**
+     * The `WebSocketClient` class handles the creation and management of a WebSocket connection to a given server.
+     * It can send and receive messages, handle errors, and close the connection gracefully.
+     */
+    export class WebSocketClient {
+        ws: WebSocket;
+        _client: Client;
+        conn: boolean;
+        /**
+         * Creates an instance of `WebSocketClient`.
+         *
+         * @param {Client} client - The main client instance that manages the bot or app's connection.
+         * @param {string} host - The WebSocket server host URL (http or https will be converted to ws or wss).
+         * @param {string} token - The authorization token used to authenticate with the WebSocket server.
+         */
+        constructor(client: Client, host: string, token: string);
+        /**
+         * Event handler for the "open" WebSocket event.
+         *
+         * This function is called when the WebSocket connection is successfully established.
+         * It sends a "Connected" message to the server and logs the connection status.
+         */
+        open(): void;
+        /**
+         * Event handler for the "message" WebSocket event.
+         *
+         * This function is called when a message is received from the WebSocket server.
+         * If the message is valid JSON, it triggers the client event registration process. Otherwise, it logs the message.
+         *
+         * @param {any} d - The raw message data received from the WebSocket server.
+         */
+        message(d: any): void;
+        /**
+         * Event handler for the "error" WebSocket event.
+         *
+         * This function is called when an error occurs on the WebSocket connection.
+         * It logs the error message to the console.
+         *
+         * @param {ErrorEvent} err - The error event containing details about the WebSocket error.
+         */
+        error(err: ErrorEvent): void;
+        /**
+         * Event handler for the "close" WebSocket event.
+         *
+         * This function is called when the WebSocket connection is closed.
+         * If the connection was established earlier, it sends a "Disconnected" message and logs the event.
+         * Otherwise, it logs a connection failure.
+         */
+        close(): void;
+        private _registerEvent;
+        /**
+         * Helper function to check if a string is valid JSON.
+         *
+         * @param {string} data - The string to check for valid JSON format.
+         * @returns {boolean} Returns true if the string is a valid JSON object or array, otherwise false.
+         */
+        isJson(data: string): boolean;
+    }
+}
 declare module "utils/collection" {
     import { Client } from "client";
     /**
@@ -1959,7 +1960,6 @@ declare module "client" {
          * @throws {Error} Throws an error if the API request fails or the data cannot be processed.
          */
         private initialize;
-        _registerEvent(name: string, data: any): void;
         /**
           * Registers a new application command.
           * @param {CommandPayload | object} options - The command creation options.
