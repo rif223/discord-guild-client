@@ -3,18 +3,24 @@ export { CommandPayload } from "./structures/commandPayload";
 export { MessagePayload } from "./structures/messagePayload";
 export { RolePayload } from "./structures/rolePayload";
 
+export { ApplicationCommand } from "./structures/applicationCommand";
 export { Attachment } from "./structures/attachment";
-export { Embed } from "./structures/embed";
+export { Embed, EmbedFooter, EmbedAuthor, EmbedImage, EmbedThumbnail, EmbedVideo, EmbedField } from "./structures/embed";
 export { Guild } from "./structures/guild";
 export { GuildBan } from "./structures/guildBan";
 export { GuildChannel } from "./structures/guildChannel";
 export { Interaction } from "./structures/interaction";
+export { AutocompleteInteraction } from "./structures/autocompleteInteraction";
+export { ModalSubmitInteraction } from "./structures/modalSubmitInteraction";
+export { CommandInteraction } from "./structures/commandInteraction";
+export { MessageComponentInteraction } from "./structures/messageComponentInteraction";
+export { Emoji } from "./structures/emoji";
 export { Member } from "./structures/member";
 export { Message } from "./structures/message";
 export { Reaction } from "./structures/reaction";
 export { Role } from "./structures/role";
+export { Sticker } from "./structures/sticker";
 export { User } from "./structures/user";
 export { VoiceState } from "./structures/voiceState";
-export { ApplicationCommand } from "./structures/applicationCommand";
 
 export { Client } from "./client";

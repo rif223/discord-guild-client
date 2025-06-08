@@ -9,6 +9,10 @@ import { Reaction } from "../structures/reaction";
 import { VoiceState } from "../structures/voiceState";
 import { Interaction } from "../structures/interaction";
 import { GuildBan } from "../structures/guildBan";
+import { CommandInteraction } from '../structures/commandInteraction';
+import { MessageComponentInteraction } from '../structures/messageComponentInteraction';
+import { AutocompleteInteraction } from '../structures/autocompleteInteraction';
+import { ModalSubmitInteraction } from '../structures/modalSubmitInteraction';
 
 /**
  * The `WebSocketClient` class handles the creation and management of a WebSocket connection to a given server.
@@ -332,7 +336,32 @@ export class WebSocketClient {
              * @param {Interaction} interaction - The interaction that was created.
              */
             case "INTERACTION_CREATE":
-                this._client.emit("interactionCreate", new Interaction(this._client, data));
+                let interactionInstance: Interaction;
+
+                switch (data.type) {
+                    case 1: // PING
+                        // You can either use the base Interaction class or create a PingInteraction class
+                        interactionInstance = new Interaction(this._client, data);
+                        break;
+                    case 2: // APPLICATION_COMMAND (Slash Command)
+                        interactionInstance = new CommandInteraction(this._client, data);
+                        break;
+                    case 3: // MESSAGE_COMPONENT (Buttons, Select Menus)
+                        interactionInstance = new MessageComponentInteraction(this._client, data);
+                        break;
+                    case 4: // APPLICATION_COMMAND_AUTOCOMPLETE
+                        interactionInstance = new AutocompleteInteraction(this._client, data);
+                        break;
+                    case 5: // MODAL_SUBMIT
+                        interactionInstance = new ModalSubmitInteraction(this._client, data);
+                        break;
+                    default:
+                        // Unknown type - fallback to base Interaction class
+                        interactionInstance = new Interaction(this._client, data);
+                        break;
+                }
+
+                this._client.emit("interactionCreate", interactionInstance);
                 break;
 
             default:

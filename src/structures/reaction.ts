@@ -1,6 +1,7 @@
 import { Client } from "../client";
 import { apiEndpoints } from "../rest/endpoints";
 import { RestApi } from "../rest/request";
+import { Emoji } from "./emoji";
 import { Member } from "./member";
 
 /**
@@ -14,7 +15,7 @@ export class Reaction {
   public messageID!: string;
   public guildID?: string;
   public member?: Member;
-  public emoji!: any;
+  public emoji?: Emoji;
   public messageAuthorID?: string;
   public burst!: boolean;
   public burstColors?: string[];
@@ -67,9 +68,9 @@ export class Reaction {
 
     /**
      * The emoji used for the reaction.
-     * @type {any}
+     * @type {Emoji}
      */
-    this.emoji = data.emoji;
+    this.emoji = data.emoji ? new Emoji(this._client, data.emoji) : undefined;
 
     /**
      * The ID of the user who authored the message that was reacted to.

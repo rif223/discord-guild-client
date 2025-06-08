@@ -1,5 +1,105 @@
+declare module "structures/user" {
+    import { Client } from "client";
+    /**
+     * Represents a Discord user.
+     */
+    export class User {
+        private _client;
+        id: string;
+        username: string;
+        discriminator: string;
+        globalName?: string;
+        avatar?: string;
+        bot?: boolean;
+        system?: boolean;
+        mfaEnabled?: boolean;
+        banner?: string;
+        accentColor?: number;
+        locale?: string;
+        verified?: boolean;
+        email?: string;
+        flags?: number;
+        premiumType?: number;
+        publicFlags?: number;
+        avatarDecorationData?: any;
+        /**
+         * Constructs a new User object.
+         * @param {Client} client - The client instance managing this user.
+         * @param {any} data - The raw data from the API representing the user.
+         */
+        constructor(client: Client, data: any);
+        /**
+         * Updates the user's properties with the provided data.
+         * @param {Object} data - The data object containing user information.
+         */
+        private _update;
+    }
+}
+declare module "structures/emoji" {
+    import { Client } from "client";
+    import { User } from "structures/user";
+    /**
+     * Represents a custom guild emoji.
+     */
+    export class Emoji {
+        private _client;
+        id?: string;
+        name?: string;
+        roles: string[];
+        user?: User;
+        requireColons?: boolean;
+        managed?: boolean;
+        animated?: boolean;
+        available?: boolean;
+        /**
+         * Constructs a new Emoji object.
+         * @param {Client} client - The client instance managing this emoji.
+         * @param {any} data - The raw data from the API representing the emoji.
+         */
+        constructor(client: Client, data: any);
+        /**
+         * Updates the emoji properties with the provided data.
+         * @param {any} data - The data object containing emoji information.
+         */
+        private _update;
+    }
+}
+declare module "structures/sticker" {
+    import { Client } from "client";
+    import { User } from "structures/user";
+    /**
+     * Represents a Discord sticker object.
+     */
+    export class Sticker {
+        private _client;
+        id: string;
+        packId?: string;
+        name: string;
+        description?: string;
+        tags: string;
+        type: number;
+        formatType: number;
+        available?: boolean;
+        guildId?: string;
+        user?: User;
+        sortValue?: number;
+        /**
+         * Creates a new Sticker instance.
+         * @param {Client} client - The client instance.
+         * @param {any} data - The raw data from the Discord API.
+         */
+        constructor(client: Client, data: any);
+        /**
+         * Updates the sticker properties with the provided data.
+         * @param {Object} data - The data object containing sticker information.
+         */
+        private _update;
+    }
+}
 declare module "structures/guild" {
     import { Client } from "client";
+    import { Emoji } from "structures/emoji";
+    import { Sticker } from "structures/sticker";
     export class Guild {
         private _client;
         id?: string;
@@ -47,11 +147,11 @@ declare module "structures/guild" {
         };
         nsfw?: boolean;
         nsfwLevel?: number;
-        stickers?: any[];
+        stickers?: Sticker[];
         premiumProgressBarEnabled?: boolean;
         safetyAlertsChannelID?: string;
         features?: string[];
-        emojis?: any[];
+        emojis?: Emoji[];
         /**
          * Constructs a new Guild object.
          * @param {Client} client - The client instance managing this guild.
@@ -137,43 +237,6 @@ declare module "rest/request" {
          * @throws {Error} Logs and throws the error if the request fails.
          */
         request(method: keyof typeof RestApi.HttpMethod, url: string, body?: any): Promise<any>;
-    }
-}
-declare module "structures/user" {
-    import { Client } from "client";
-    /**
-     * Represents a Discord user.
-     */
-    export class User {
-        private _client;
-        id: string;
-        username: string;
-        discriminator: string;
-        globalName?: string;
-        avatar?: string;
-        bot?: boolean;
-        system?: boolean;
-        mfaEnabled?: boolean;
-        banner?: string;
-        accentColor?: number;
-        locale?: string;
-        verified?: boolean;
-        email?: string;
-        flags?: number;
-        premiumType?: number;
-        publicFlags?: number;
-        avatarDecorationData?: any;
-        /**
-         * Constructs a new User object.
-         * @param {Client} client - The client instance managing this user.
-         * @param {any} data - The raw data from the API representing the user.
-         */
-        constructor(client: Client, data: any);
-        /**
-         * Updates the user's properties with the provided data.
-         * @param {Object} data - The data object containing user information.
-         */
-        private _update;
     }
 }
 declare module "structures/attachment" {
@@ -464,6 +527,7 @@ declare module "structures/member" {
 }
 declare module "structures/reaction" {
     import { Client } from "client";
+    import { Emoji } from "structures/emoji";
     import { Member } from "structures/member";
     /**
      * Represents a reaction to a message in a guild or channel.
@@ -475,7 +539,7 @@ declare module "structures/reaction" {
         messageID: string;
         guildID?: string;
         member?: Member;
-        emoji: any;
+        emoji?: Emoji;
         messageAuthorID?: string;
         burst: boolean;
         burstColors?: string[];
@@ -1258,7 +1322,7 @@ declare module "structures/interaction" {
      * Represents a Discord interaction.
      */
     export class Interaction {
-        private _client;
+        _client: Client;
         id: string;
         applicationId: string;
         type: number;
@@ -1309,6 +1373,7 @@ declare module "structures/message" {
     import { Role } from "structures/role";
     import { GuildChannel } from "structures/guildChannel";
     import { Interaction } from "structures/interaction";
+    import { Sticker } from "structures/sticker";
     /**
      * Represents a message in a channel.
      */
@@ -1344,7 +1409,7 @@ declare module "structures/message" {
         thread: GuildChannel | null;
         components: any[];
         stickerItems: any[];
-        stickers: any[];
+        stickers: Sticker[];
         position: number | null;
         roleSubscriptionData: any | null;
         resolved: any | null;
@@ -1513,6 +1578,74 @@ declare module "structures/guildBan" {
          * @param {Object} data - The data object containing ban information.
          */
         private _update;
+    }
+}
+declare module "structures/commandInteraction" {
+    import { Client } from "client";
+    import { Interaction } from "structures/interaction";
+    /**
+     * Represents a command-based (slash command) interaction.
+     */
+    export class CommandInteraction extends Interaction {
+        commandName: string;
+        commandId: string;
+        options?: any;
+        /**
+         * Creates a new CommandInteraction.
+         * @param {Client} client - The client instance.
+         * @param {any} data - The raw interaction data.
+         */
+        constructor(client: Client, data: any);
+        /**
+         * Updates the specific command-related fields.
+         * @param {any} data - The data object from the API.
+         */
+        private _updateCommandData;
+        /**
+         * Convenience method for getting a specific option by name.
+         * @param {string} name - The name of the option to retrieve.
+         * @returns The matching option or undefined.
+         */
+        getOption(name: string): any | undefined;
+    }
+}
+declare module "structures/messageComponentInteraction" {
+    import { Client } from "client";
+    import { Interaction } from "structures/interaction";
+    /**
+     * Represents a message component interaction (buttons, select menus).
+     */
+    export class MessageComponentInteraction extends Interaction {
+        customId: string;
+        componentType: number;
+        values?: string[];
+        constructor(client: Client, data: any);
+        private _updateComponentData;
+    }
+}
+declare module "structures/autocompleteInteraction" {
+    import { Client } from "client";
+    import { Interaction } from "structures/interaction";
+    export class AutocompleteInteraction extends Interaction {
+        commandName: string;
+        commandId: string;
+        focusedOptionName?: string;
+        options?: Array<any>;
+        constructor(client: Client, data: any);
+        private _updateAutocompleteData;
+    }
+}
+declare module "structures/modalSubmitInteraction" {
+    import { Client } from "client";
+    import { Interaction } from "structures/interaction";
+    /**
+     * Represents a modal submit interaction.
+     */
+    export class ModalSubmitInteraction extends Interaction {
+        customId: string;
+        components?: any[];
+        constructor(client: Client, data: any);
+        private _updateModalData;
     }
 }
 declare module "ws/websocket" {
@@ -1942,6 +2075,7 @@ declare module "client" {
         channels?: Collection<GuildChannel> | undefined;
         members?: Collection<Member> | undefined;
         roles?: Collection<Role> | undefined;
+        commands?: Collection<ApplicationCommand> | undefined;
         /**
          * Creates an instance of the Client class.
          * Initializes the WebSocket and REST API clients and sets up the guild data.
@@ -1967,17 +2101,6 @@ declare module "client" {
           */
         registerCommand(options: CommandPayload): Promise<ApplicationCommand>;
         /**
-          * Retrieves all application commands for the guild.
-          * @returns {Promise<any>} A promise that resolves to an array of application commands for the guild.
-          */
-        getCommands(): Promise<any>;
-        /**
-          * Retrieves a specific application command by its ID.
-          * @param {string} id - The unique ID of the application command.
-          * @returns {Promise<any>} A promise that resolves to the application command data.
-          */
-        getCommand(id: string): Promise<any>;
-        /**
           * Unregister the application command.
           * @returns {Promise<void>} Resolves when the command is unregistered.
           */
@@ -1989,19 +2112,25 @@ declare module "index" {
     export { CommandPayload } from "structures/commandPayload";
     export { MessagePayload } from "structures/messagePayload";
     export { RolePayload } from "structures/rolePayload";
+    export { ApplicationCommand } from "structures/applicationCommand";
     export { Attachment } from "structures/attachment";
-    export { Embed } from "structures/embed";
+    export { Embed, EmbedFooter, EmbedAuthor, EmbedImage, EmbedThumbnail, EmbedVideo, EmbedField } from "structures/embed";
     export { Guild } from "structures/guild";
     export { GuildBan } from "structures/guildBan";
     export { GuildChannel } from "structures/guildChannel";
     export { Interaction } from "structures/interaction";
+    export { AutocompleteInteraction } from "structures/autocompleteInteraction";
+    export { ModalSubmitInteraction } from "structures/modalSubmitInteraction";
+    export { CommandInteraction } from "structures/commandInteraction";
+    export { MessageComponentInteraction } from "structures/messageComponentInteraction";
+    export { Emoji } from "structures/emoji";
     export { Member } from "structures/member";
     export { Message } from "structures/message";
     export { Reaction } from "structures/reaction";
     export { Role } from "structures/role";
+    export { Sticker } from "structures/sticker";
     export { User } from "structures/user";
     export { VoiceState } from "structures/voiceState";
-    export { ApplicationCommand } from "structures/applicationCommand";
     export { Client } from "client";
 }
 //# sourceMappingURL=index.d.ts.map

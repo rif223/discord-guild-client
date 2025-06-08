@@ -12,7 +12,7 @@ import { User } from "./user";
  * Represents a Discord interaction.
  */
 export class Interaction {
-  private _client: Client;
+  public _client: Client;
 
   public id!: string;
   public applicationId!: string;

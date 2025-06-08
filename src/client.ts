@@ -161,6 +161,7 @@ export class Client extends EventEmitter {
   public channels?: Collection<GuildChannel> | undefined;
   public members?: Collection<Member> | undefined;
   public roles?: Collection<Role> | undefined;
+  public commands?: Collection<ApplicationCommand> | undefined;
 
   /**
    * Creates an instance of the Client class.
@@ -232,6 +233,22 @@ export class Client extends EventEmitter {
      */
     this.roles = new Collection<Role>(this, Role);
 
+    /**
+     * A collection of application commands associated with the client.
+     * 
+     * This property is initialized asynchronously after the client is created and
+     * contains all commands registered in the current guild.
+     * 
+     * The collection is managed by the `Collection` class and uses the command ID
+     * as the key to access individual commands.
+     * 
+     * Note: The `commands` property may be `undefined` if the initialization is not
+     * yet complete or if there was an error fetching the commands. Ensure to check
+     * the state of this property before attempting to access commands.
+     * @type {Collection<ApplicationCommand> | undefined}
+     */
+    this.commands = new Collection<ApplicationCommand>(this, ApplicationCommand);
+
     this.initialize();
   }
 
@@ -263,6 +280,11 @@ export class Client extends EventEmitter {
     let roles = await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guildRoles());
     for (const role of roles) {
       this.roles?.add(role.id, role);
+    }
+
+    let commands = await this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guildCommands());
+    for (const command of commands) {
+      this.commands?.add(command.id, command);
     }
 
     /**
@@ -315,30 +337,15 @@ export class Client extends EventEmitter {
         apiEndpoints.guildCommands(),
         payload
       );
+
+      this.commands?.add(data.id, data);
+
       return new ApplicationCommand(this, data);
     } catch (error) {
       console.error("Failed to create command:", error);
       throw error;
     }
   }
-
-  /**
-    * Retrieves all application commands for the guild.
-    * @returns {Promise<any>} A promise that resolves to an array of application commands for the guild.
-    */
-  public async getCommands() {
-    return this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guildCommands());
-  }
-
-  /**
-    * Retrieves a specific application command by its ID.
-    * @param {string} id - The unique ID of the application command.
-    * @returns {Promise<any>} A promise that resolves to the application command data.
-    */
-  public async getCommand(id: string) {
-    return this.rest.request(RestApi.HttpMethod.GET, apiEndpoints.guildCommand(id));
-  }
-
 
   /**
     * Unregister the application command.
@@ -350,6 +357,8 @@ export class Client extends EventEmitter {
         RestApi.HttpMethod.DELETE,
         apiEndpoints.guildCommand(id)
       );
+
+      this.commands?.remove(id);
     } catch (error) {
       console.error("Failed to delete command:", error);
       throw error;

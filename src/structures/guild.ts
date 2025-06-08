@@ -1,4 +1,6 @@
 import { Client } from "../client";
+import { Emoji } from "./emoji";
+import { Sticker } from "./sticker";
 
 export class Guild {
   private _client: Client;
@@ -48,11 +50,11 @@ export class Guild {
   };
   public nsfw?: boolean;
   public nsfwLevel?: number;
-  public stickers?: any[];
+  public stickers?: Sticker[];
   public premiumProgressBarEnabled?: boolean;
   public safetyAlertsChannelID?: string;
   public features?: string[];
-  public emojis?: any[];
+  public emojis?: Emoji[];
 
   /**
    * Constructs a new Guild object.
@@ -308,9 +310,9 @@ export class Guild {
 
     /**
      * Custom stickers that have been uploaded to the guild.
-     * @type {any[]}
+     * @type {Sticker[]}
      */
-    this.stickers = data.stickers;
+    this.stickers = data.stickers ? data.stickers.map((stickerData: any) => new Sticker(this._client, stickerData)) : null;
 
     /**
      * Whether the boost progress bar is enabled in the guild.
@@ -332,8 +334,8 @@ export class Guild {
 
     /**
      * Custom emojis uploaded to the guild.
-     * @type {any[]}
+     * @type {Emoji[]}
      */
-    this.emojis = data.emojis;
+    this.emojis = data.emojis ? data.emojis.map((emojiData: any) => new Emoji(this._client, emojiData)) : null;
   }
 }

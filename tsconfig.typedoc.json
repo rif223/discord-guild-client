@@ -1,0 +1,30 @@
+{
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib",
+        "typings"
+    ],
+    "compilerOptions": {
+        "types": [
+            "node"
+        ],
+        "outDir": "./lib",
+        "allowJs": false,
+        "checkJs": false,
+        "declaration": true,
+        "declarationMap": true,
+        "emitDeclarationOnly": true,
+        "lib": [
+            "ESNext"
+        ],
+        "module": "amd",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "target": "ESNext",
+        "outFile": "./typings/index.d.ts"
+    }
+}

@@ -8,6 +8,7 @@ import { GuildChannel } from "./guildChannel";
 import { Interaction } from "./interaction";
 import { RestApi } from "../rest/request";
 import { apiEndpoints } from "../rest/endpoints";
+import { Sticker } from "./sticker";
 
 /**
  * Represents a message in a channel.
@@ -45,7 +46,7 @@ export class Message {
     public thread!: GuildChannel | null;
     public components!: any[];
     public stickerItems!: any[];
-    public stickers!: any[];
+    public stickers!: Sticker[];
     public position!: number | null;
     public roleSubscriptionData!: any | null;
     public resolved!: any | null;
@@ -261,10 +262,10 @@ export class Message {
 
         /**
          * Deprecated sticker field. Use `stickerItems` instead.
-         * @type {any[]}
+         * @type {Sticker[]}
          * @deprecated
          */
-        this.stickers = data.stickers || [];
+        this.stickers = data.stickers ? data.stickers.map((stickerData: any) => new Sticker(this._client, stickerData)) : [];
 
         /**
          * Represents the approximate position of the message in a thread.
