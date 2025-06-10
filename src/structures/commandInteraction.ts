@@ -26,25 +26,18 @@ export class CommandInteraction extends Interaction {
      * @param {any} data - The data object from the API.
      */
     private _updateCommandData(data: any) {
-        const interactionData = data;
-        const cmd = this._client.commands.get(interactionData.id);
-
-        if (interactionData) {
-            /**
-             * The command name.
-             */
-            this.commandName = cmd.name;
-
-            /**
-             * The command ID.
-             */
-            this.commandId = cmd.id;
-
-            /**
-             * The options array, defaulting to empty array.
-             */
-            this.options = cmd.options ?? [];
-        }
+       /**
+        * The command name.
+        */
+       this.commandName = data.data.name    
+       /**
+        * The command ID.
+        */
+       this.commandId = data.data.id    
+       /**
+        * The options array, defaulting to empty array.
+        */
+       this.options = data.data.options ?? [];
     }
 
     /**
