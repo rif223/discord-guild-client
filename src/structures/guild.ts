@@ -1,5 +1,8 @@
 import { Client } from "../client";
+import { apiEndpoints } from "../rest/endpoints";
+import { RestApi } from "../rest/request";
 import { Emoji } from "./emoji";
+import { GuildPayload } from "./guildPayload";
 import { Sticker } from "./sticker";
 
 export class Guild {
@@ -337,5 +340,42 @@ export class Guild {
      * @type {Emoji[]}
      */
     this.emojis = data.emojis ? data.emojis.map((emojiData: any) => new Emoji(this._client, emojiData)) : null;
+  }
+
+  /**
+   * Edits the guild with the provided options.
+   * @param {GuildPayload} options - Fields to update on the guild.
+   * @returns {Promise<Guild>} The updated Guild object.
+   * @throws {Error} Throws if the API request fails.
+   */
+  public async edit(options: GuildPayload | object): Promise<Guild> {
+    let guildPayload: GuildPayload;
+
+    // Check if the options are already a GuildPayload object
+    if (options instanceof GuildPayload) {
+      guildPayload = options;
+    } else {
+      guildPayload = new GuildPayload(options);
+    }
+
+    // Validate required fields
+    if (guildPayload.name && (guildPayload.name.length < 1 || guildPayload.name.length > 100)) {
+      throw new Error('Guild name must be between 1 and 100 characters.');
+    }
+
+    // Prepare the payload for the API request
+    const payload = guildPayload.toJSON();
+
+    try {
+      const data = await this._client.rest.request(
+        RestApi.HttpMethod.PATCH,
+        apiEndpoints.guild(),
+        payload
+      );
+      return new Guild(this._client, data);
+    } catch (error) {
+      console.error(`Failed to edit guild ${this.id}:`, error);
+      throw error;
+    }
   }
 }

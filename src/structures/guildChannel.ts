@@ -2,6 +2,8 @@ import { Client } from "../client";
 import { apiEndpoints } from "../rest/endpoints";
 import { RestApi } from "../rest/request";
 import { ChannelPayload } from "./channelPayload";
+import { Invite } from "./invite";
+import { InvitePayload } from "./invitePayload";
 import { Member } from "./member";
 import { Message } from "./message";
 import { MessagePayload } from "./messagePayload";
@@ -423,8 +425,74 @@ export class GuildChannel {
    * @throws {Error} Throws an error if the deletion request fails. This may occur due to insufficient permissions
    *                 or if the channel does not exist.
    */
-  delete(): Promise<void> {
+  public delete(): Promise<void> {
     return this._client.rest.request(RestApi.HttpMethod.DELETE, apiEndpoints.guildChannel(this.id));
   }
 
+  /**
+   * Creates a new invite for this channel.
+   *
+   * Sends a request to the Discord API to create an invite link with the specified options.
+   * 
+   * @param {InvitePayload} options - Options for creating the invite.
+   * @returns {Promise<Invite>} The invite object returned from the API.
+   *
+   * @throws {Error} Throws if the request fails due to permission issues, invalid parameters, or network errors.
+   */
+  public async createInvite(options: InvitePayload): Promise<Invite> {
+    let invitePayload: InvitePayload;
+
+    // Check if the options are already a InvitePayload object
+    if (options instanceof InvitePayload) {
+      invitePayload = options;
+    } else {
+      invitePayload = new InvitePayload(options);
+    }
+
+    // Prepare the payload for the API request
+    const payload = invitePayload.toJSON();
+
+
+    try {
+      const data = await this._client.rest.request(
+        RestApi.HttpMethod.POST,
+        apiEndpoints.guildChannelInvites(this.id),
+        payload
+      );
+
+      return new Invite(this._client, data);
+
+    } catch (error) {
+      console.error(`Failed to create invite for channel ${this.id}:`, error);
+      throw error;
+    }
+  }
+  
+
+  /**
+   * Retrieves all active invites for this guild channel.
+   *
+   * This method calls the Discord API to fetch all invite links that have been created for this specific channel.
+   * The returned invites include metadata such as the creator, usage limits, expiration time, etc.
+   * 
+   * ⚠️ Requires the `MANAGE_CHANNELS` permission on the channel.
+   *
+   * @returns {Promise<Invite[]>} A promise that resolves to an array of {@link Invite} objects.
+   *
+   * @throws {Error} Throws if the request fails due to permission issues, network errors, or invalid channel ID.
+   */
+  public async getInvites(): Promise<Invite[]> {
+    try {
+      const data = await this._client.rest.request(
+        RestApi.HttpMethod.GET,
+        apiEndpoints.guildChannelInvites(this.id)
+      );
+
+      return data.map((inviteData: Invite) => new Invite(this._client, inviteData));
+
+    } catch (error) {
+      console.error(`Failed to fetch invites for channel ${this.id}:`, error);
+      throw error;
+    }
+  }
 }

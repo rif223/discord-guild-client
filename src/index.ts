@@ -2,10 +2,14 @@ export { ChannelPayload } from "./structures/channelPayload";
 export { CommandPayload } from "./structures/commandPayload";
 export { MessagePayload } from "./structures/messagePayload";
 export { RolePayload } from "./structures/rolePayload";
+export { GuildPayload } from "./structures/guildPayload";
+export { InvitePayload } from "./structures/invitePayload";
 
+export { Invite } from "./structures/invite";
+export { Application } from "./structures/application";
 export { ApplicationCommand } from "./structures/applicationCommand";
 export { Attachment } from "./structures/attachment";
-export { Embed, EmbedFooter, EmbedAuthor, EmbedImage, EmbedThumbnail, EmbedVideo, EmbedField } from "./structures/embed";
+export { Embed, EmbedFooter, EmbedAuthor, EmbedImage, EmbedThumbnail, EmbedVideo, EmbedField, EmbedProvider } from "./structures/embed";
 export { Guild } from "./structures/guild";
 export { GuildBan } from "./structures/guildBan";
 export { GuildChannel } from "./structures/guildChannel";
@@ -24,3 +28,8 @@ export { User } from "./structures/user";
 export { VoiceState } from "./structures/voiceState";
 
 export { Client } from "./client";
+export { ClientEvents } from "./clientEvents";
+export { Collection } from "./utils/collection";
+export { RestApi } from "./rest/request";
+export { apiEndpoints } from "./rest/endpoints";
+export { WebSocketClient } from "./ws/websocket";

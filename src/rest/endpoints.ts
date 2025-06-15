@@ -10,6 +10,7 @@ export const apiEndpoints = {
     guildBulkBanMembers: () => `/guild/bulk-ban`,
     guildChannels: () => `/guild/channels`,
     guildChannel: (channelId: string) => `/guild/channels/${channelId}`,
+    guildChannelInvites: (channelId: string) => `/guild/channels/${channelId}/invites`,
     guildChannelPermissions: (channelId: string, overwriteId: string) => `/guild/channels/${channelId}/permissions/${overwriteId}`,
     guildChannelMessages: (channelId: string) => `/guild/channels/${channelId}/messages`,
     guildChannelMessage: (channelId: string, messageId: string) => `/guild/channels/${channelId}/messages/${messageId}`,

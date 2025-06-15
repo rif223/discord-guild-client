@@ -1,3 +1,78 @@
+declare module "rest/endpoints" {
+    export const apiEndpoints: {
+        user: () => string;
+        guild: () => string;
+        guildInteractionCallback: (interactionId: string, interactionToken: string) => string;
+        guildCommands: () => string;
+        guildCommand: (cmdId: string) => string;
+        guildCommandPermissions: () => string;
+        guildBans: () => string;
+        guildBan: (userId: string) => string;
+        guildBulkBanMembers: () => string;
+        guildChannels: () => string;
+        guildChannel: (channelId: string) => string;
+        guildChannelInvites: (channelId: string) => string;
+        guildChannelPermissions: (channelId: string, overwriteId: string) => string;
+        guildChannelMessages: (channelId: string) => string;
+        guildChannelMessage: (channelId: string, messageId: string) => string;
+        guildChannelMessageReaction: (channelId: string, messageId: string, emojiId: string) => string;
+        guildChannelMessageReactionUser: (channelId: string, messageId: string, emojiId: string, userId: string) => string;
+        guildChannelMessageReactions: (channelId: string, messageId: string) => string;
+        guildMembers: () => string;
+        guildMember: (memberId: string) => string;
+        guildMemberRoles: (memberId: string) => string;
+        guildMemberRole: (memberId: string, roleId: string) => string;
+        guildRoles: () => string;
+        guildRole: (roleId: string) => string;
+    };
+}
+declare module "rest/request" {
+    import { Axios } from "axios";
+    /**
+     * The `RestApi` class provides a simplified interface for making HTTP requests
+     * to a specified server using Axios. It supports common HTTP methods and
+     * manages authorization headers.
+     */
+    export class RestApi {
+        axios: Axios;
+        /**
+         * Creates an instance of `RestApi`.
+         *
+         * @param {string} host - The base URL of the API server (e.g., "https://api.example.com").
+         * @param {string} token - The authorization token to include in the request headers.
+         */
+        constructor(host: string, token: string);
+        /**
+         * Enum-like object defining supported HTTP methods.
+         * This is a constant object that maps HTTP method names to their string representations.
+         *
+         * Available methods:
+         * - `GET`: Fetch data from the server.
+         * - `POST`: Submit data to the server.
+         * - `PUT`: Replace data on the server.
+         * - `PATCH`: Partially update data on the server.
+         * - `DELETE`: Remove data from the server.
+         */
+        static HttpMethod: {
+            readonly GET: "GET";
+            readonly POST: "POST";
+            readonly PUT: "PUT";
+            readonly PATCH: "PATCH";
+            readonly DELETE: "DELETE";
+        };
+        /**
+         * Sends an HTTP request to the server using the specified method and URL.
+         *
+         * @param {keyof typeof RestApi.HttpMethod} method - The HTTP method to use (GET, POST, PUT, PATCH, DELETE).
+         * @param {string} url - The endpoint URL (relative to the base URL).
+         * @param {any} [body] - Optional data to send in the request body (used with POST, PUT, PATCH).
+         * @returns {Promise<any>} A promise that resolves to the server's response data.
+         *
+         * @throws {Error} Logs and throws the error if the request fails.
+         */
+        request(method: keyof typeof RestApi.HttpMethod, url: string, body?: any): Promise<any>;
+    }
+}
 declare module "structures/user" {
     import { Client } from "client";
     /**
@@ -64,6 +139,173 @@ declare module "structures/emoji" {
         private _update;
     }
 }
+declare module "structures/guildPayload" {
+    /**
+     * Represents the payload for updating or creating a Discord guild.
+     */
+    export class GuildPayload {
+        private _name?;
+        private _region?;
+        private _verificationLevel?;
+        private _defaultMessageNotifications?;
+        private _explicitContentFilter?;
+        private _afkChannelId?;
+        private _afkTimeout?;
+        private _icon?;
+        private _ownerId?;
+        private _splash?;
+        private _discoverySplash?;
+        private _banner?;
+        private _systemChannelId?;
+        private _systemChannelFlags?;
+        private _rulesChannelId?;
+        private _publicUpdatesChannelId?;
+        private _preferredLocale?;
+        private _features?;
+        private _description?;
+        private _premiumProgressBarEnabled?;
+        private _safetyAlertsChannelId?;
+        /**
+         * Creates a new GuildPayload instance.
+         * @param data Optional initial data to populate the guild payload.
+         */
+        constructor(data?: {
+            name?: string;
+            region?: string;
+            verification_level?: number;
+            default_message_notifications?: number;
+            explicit_content_filter?: number;
+            afk_channel_id?: string;
+            afk_timeout?: number;
+            icon?: string;
+            owner_id?: string;
+            splash?: string;
+            discovery_splash?: string;
+            banner?: string;
+            system_channel_id?: string;
+            system_channel_flags?: number;
+            rules_channel_id?: string;
+            public_updates_channel_id?: string;
+            preferred_locale?: string;
+            features?: string[];
+            description?: string;
+            premium_progress_bar_enabled?: boolean;
+            safety_alerts_channel_id?: string;
+        });
+        /**
+         * The guild's name.
+         * Must be between 2 and 100 characters if specified.
+         */
+        get name(): string | undefined;
+        set name(value: string | undefined);
+        /**
+         * The guild voice region id (deprecated).
+         */
+        get region(): string | undefined;
+        set region(value: string | undefined);
+        /**
+         * Verification level of the guild (0-4).
+         */
+        get verificationLevel(): number | undefined;
+        set verificationLevel(value: number | undefined);
+        /**
+         * Default message notification level.
+         */
+        get defaultMessageNotifications(): number | undefined;
+        set defaultMessageNotifications(value: number | undefined);
+        /**
+         * Explicit content filter level.
+         */
+        get explicitContentFilter(): number | undefined;
+        set explicitContentFilter(value: number | undefined);
+        /**
+         * ID for the AFK channel.
+         */
+        get afkChannelId(): string | undefined;
+        set afkChannelId(value: string | undefined);
+        /**
+         * AFK timeout in seconds.
+         * Valid values: 60, 300, 900, 1800, 3600.
+         */
+        get afkTimeout(): number | undefined;
+        set afkTimeout(value: number | undefined);
+        /**
+         * Base64 encoded 1024x1024 png/jpeg/gif image for the guild icon.
+         */
+        get icon(): string | undefined;
+        set icon(value: string | undefined);
+        /**
+         * User ID to transfer guild ownership to (must be the owner).
+         */
+        get ownerId(): string | undefined;
+        set ownerId(value: string | undefined);
+        /**
+         * Base64 encoded 16:9 png/jpeg image for the guild splash.
+         */
+        get splash(): string | undefined;
+        set splash(value: string | undefined);
+        /**
+         * Base64 encoded 16:9 png/jpeg image for the guild discovery splash.
+         */
+        get discoverySplash(): string | undefined;
+        set discoverySplash(value: string | undefined);
+        /**
+         * Base64 encoded 16:9 png/jpeg image for the guild banner.
+         */
+        get banner(): string | undefined;
+        set banner(value: string | undefined);
+        /**
+         * The ID of the channel where guild notices such as welcome messages and boost events are posted.
+         */
+        get systemChannelId(): string | undefined;
+        set systemChannelId(value: string | undefined);
+        /**
+         * System channel flags.
+         */
+        get systemChannelFlags(): number | undefined;
+        set systemChannelFlags(value: number | undefined);
+        /**
+         * The ID of the channel where Community guilds display rules and/or guidelines.
+         */
+        get rulesChannelId(): string | undefined;
+        set rulesChannelId(value: string | undefined);
+        /**
+         * The ID of the channel where admins and moderators of Community guilds receive notices from Discord.
+         */
+        get publicUpdatesChannelId(): string | undefined;
+        set publicUpdatesChannelId(value: string | undefined);
+        /**
+         * The preferred locale of a Community guild used in server discovery and notices from Discord.
+         */
+        get preferredLocale(): string | undefined;
+        set preferredLocale(value: string | undefined);
+        /**
+         * Enabled guild features.
+         */
+        get features(): string[] | undefined;
+        set features(value: string[] | undefined);
+        /**
+         * The description for the guild.
+         */
+        get description(): string | undefined;
+        set description(value: string | undefined);
+        /**
+         * Whether the guild's boost progress bar should be enabled.
+         */
+        get premiumProgressBarEnabled(): boolean | undefined;
+        set premiumProgressBarEnabled(value: boolean | undefined);
+        /**
+         * The ID of the channel where admins and moderators of Community guilds receive safety alerts from Discord.
+         */
+        get safetyAlertsChannelId(): string | undefined;
+        set safetyAlertsChannelId(value: string | undefined);
+        /**
+         * Converts the payload to a JSON object.
+         * @returns JSON representation of the guild payload.
+         */
+        toJSON(): any;
+    }
+}
 declare module "structures/sticker" {
     import { Client } from "client";
     import { User } from "structures/user";
@@ -99,6 +341,7 @@ declare module "structures/sticker" {
 declare module "structures/guild" {
     import { Client } from "client";
     import { Emoji } from "structures/emoji";
+    import { GuildPayload } from "structures/guildPayload";
     import { Sticker } from "structures/sticker";
     export class Guild {
         private _client;
@@ -163,80 +406,13 @@ declare module "structures/guild" {
          * @param {Object} data - The data object containing guild information.
          */
         private _update;
-    }
-}
-declare module "rest/endpoints" {
-    export const apiEndpoints: {
-        user: () => string;
-        guild: () => string;
-        guildInteractionCallback: (interactionId: string, interactionToken: string) => string;
-        guildCommands: () => string;
-        guildCommand: (cmdId: string) => string;
-        guildCommandPermissions: () => string;
-        guildBans: () => string;
-        guildBan: (userId: string) => string;
-        guildBulkBanMembers: () => string;
-        guildChannels: () => string;
-        guildChannel: (channelId: string) => string;
-        guildChannelPermissions: (channelId: string, overwriteId: string) => string;
-        guildChannelMessages: (channelId: string) => string;
-        guildChannelMessage: (channelId: string, messageId: string) => string;
-        guildChannelMessageReaction: (channelId: string, messageId: string, emojiId: string) => string;
-        guildChannelMessageReactionUser: (channelId: string, messageId: string, emojiId: string, userId: string) => string;
-        guildChannelMessageReactions: (channelId: string, messageId: string) => string;
-        guildMembers: () => string;
-        guildMember: (memberId: string) => string;
-        guildMemberRoles: (memberId: string) => string;
-        guildMemberRole: (memberId: string, roleId: string) => string;
-        guildRoles: () => string;
-        guildRole: (roleId: string) => string;
-    };
-}
-declare module "rest/request" {
-    import { Axios } from "axios";
-    /**
-     * The `RestApi` class provides a simplified interface for making HTTP requests
-     * to a specified server using Axios. It supports common HTTP methods and
-     * manages authorization headers.
-     */
-    export class RestApi {
-        axios: Axios;
         /**
-         * Creates an instance of `RestApi`.
-         *
-         * @param {string} host - The base URL of the API server (e.g., "https://api.example.com").
-         * @param {string} token - The authorization token to include in the request headers.
+         * Edits the guild with the provided options.
+         * @param {GuildPayload} options - Fields to update on the guild.
+         * @returns {Promise<Guild>} The updated Guild object.
+         * @throws {Error} Throws if the API request fails.
          */
-        constructor(host: string, token: string);
-        /**
-         * Enum-like object defining supported HTTP methods.
-         * This is a constant object that maps HTTP method names to their string representations.
-         *
-         * Available methods:
-         * - `GET`: Fetch data from the server.
-         * - `POST`: Submit data to the server.
-         * - `PUT`: Replace data on the server.
-         * - `PATCH`: Partially update data on the server.
-         * - `DELETE`: Remove data from the server.
-         */
-        static HttpMethod: {
-            readonly GET: "GET";
-            readonly POST: "POST";
-            readonly PUT: "PUT";
-            readonly PATCH: "PATCH";
-            readonly DELETE: "DELETE";
-        };
-        /**
-         * Sends an HTTP request to the server using the specified method and URL.
-         *
-         * @param {keyof typeof RestApi.HttpMethod} method - The HTTP method to use (GET, POST, PUT, PATCH, DELETE).
-         * @param {string} url - The endpoint URL (relative to the base URL).
-         * @param {any} [body] - Optional data to send in the request body (used with POST, PUT, PATCH).
-         * @returns {Promise<any>} A promise that resolves to the server's response data.
-         *
-         * @throws {Error} Logs and throws the error if the request fails.
-         */
-        request(method: keyof typeof RestApi.HttpMethod, url: string, body?: any): Promise<any>;
+        edit(options: GuildPayload | object): Promise<Guild>;
     }
 }
 declare module "structures/attachment" {
@@ -973,6 +1149,204 @@ declare module "structures/channelPayload" {
         toJSON(): any;
     }
 }
+declare module "structures/application" {
+    import { Client } from "client";
+    import { Guild } from "structures/guild";
+    import { User } from "structures/user";
+    export class Application {
+        private _client;
+        id: string;
+        name: string;
+        icon?: string;
+        description: string;
+        rpcOrigins?: string[];
+        botPublic: boolean;
+        botRequireCodeGrant: boolean;
+        bot?: User;
+        termsOfServiceUrl?: string;
+        privacyPolicyUrl?: string;
+        owner?: User;
+        verifyKey: string;
+        team?: any;
+        guildID?: string;
+        guild?: Guild;
+        primarySkuID?: string;
+        slug?: string;
+        coverImage?: string;
+        flags?: number;
+        approximateGuildCount?: number;
+        approximateUserInstallCount?: number;
+        redirectUris?: string[];
+        interactionsEndpointUrl?: string;
+        roleConnectionsVerificationUrl?: string;
+        eventWebhooksUrl?: string;
+        eventWebhooksStatus: number;
+        eventWebhooksTypes?: string[];
+        tags?: string[];
+        installParams?: any;
+        integrationTypesConfig?: Record<string, any>;
+        customInstallUrl?: string;
+        /**
+         * Constructs a new Application object.
+         * @param {Client} client - The client instance managing this application.
+         * @param {any} data - The raw data from the API representing the application.
+         */
+        constructor(client: Client, data: any);
+        /**
+         * Updates the application properties with the provided data.
+         * @param {any} data - The data object containing application information.
+         */
+        private _update;
+    }
+}
+declare module "structures/invite" {
+    import { Client } from "client";
+    import { Application } from "structures/application";
+    import { Guild } from "structures/guild";
+    import { GuildChannel } from "structures/guildChannel";
+    import { User } from "structures/user";
+    export class Invite {
+        private _client;
+        type: number;
+        code: string;
+        guild?: Guild;
+        channel?: GuildChannel;
+        inviter?: User;
+        targetType?: number;
+        targetUser?: User;
+        targetApplication?: Application;
+        approximatePresenceCount?: number;
+        approximateMemberCount?: number;
+        expiresAt?: string | null;
+        stageInstance?: any;
+        guildScheduledEvent?: any;
+        /**
+         * Constructs a new Invite object.
+         * @param {Client} client - The client instance managing this invite.
+         * @param {any} data - The raw data from the API representing the invite.
+         */
+        constructor(client: Client, data: any);
+        /**
+         * Updates the invite properties with the provided data.
+         * @param {any} data - The data object containing invite information.
+         */
+        private _update;
+    }
+}
+declare module "structures/invitePayload" {
+    /**
+     * Represents the payload for creating a Discord invite.
+     * This class encapsulates all parameters needed to create an invite.
+     */
+    export class InvitePayload {
+        private _maxAge?;
+        private _maxUses?;
+        private _temporary?;
+        private _unique?;
+        private _targetType?;
+        private _targetUserId?;
+        private _targetApplicationId?;
+        /**
+         * Creates a new `InvitePayload` instance.
+         * @param data Optional initial data to set in the payload.
+         */
+        constructor(data?: {
+            max_age?: number;
+            max_uses?: number;
+            temporary?: boolean;
+            unique?: boolean;
+            target_type?: number;
+            target_user_id?: string;
+            target_application_id?: string;
+        });
+        /**
+         * Gets the duration (in seconds) before the invite expires.
+         * 0 means the invite never expires.
+         * Must be between 0 and 604800 (7 days).
+         * @returns The invite expiration duration in seconds.
+         */
+        get maxAge(): number | undefined;
+        /**
+         * Sets the duration (in seconds) before the invite expires.
+         * @param value Duration in seconds (0 to 604800).
+         * @throws Error if the value is out of range.
+         */
+        set maxAge(value: number | undefined);
+        /**
+         * Gets the maximum number of uses for the invite.
+         * 0 means unlimited uses.
+         * Must be between 0 and 100.
+         * @returns The maximum number of uses.
+         */
+        get maxUses(): number | undefined;
+        /**
+         * Sets the maximum number of uses for the invite.
+         * @param value Maximum uses (0 to 100).
+         * @throws Error if the value is out of range.
+         */
+        set maxUses(value: number | undefined);
+        /**
+         * Gets whether the invite grants temporary membership.
+         * @returns True if temporary membership is granted.
+         */
+        get temporary(): boolean | undefined;
+        /**
+         * Sets whether the invite grants temporary membership.
+         * @param value True to grant temporary membership.
+         */
+        set temporary(value: boolean | undefined);
+        /**
+         * Gets whether the invite should always create a new unique invite.
+         * Useful for generating one-time-use invites.
+         * @returns True if invite is unique.
+         */
+        get unique(): boolean | undefined;
+        /**
+         * Sets whether the invite should always create a new unique invite.
+         * @param value True to create a unique invite.
+         */
+        set unique(value: boolean | undefined);
+        /**
+         * Gets the target type of the voice channel invite.
+         * 1 = Stream, 2 = Embedded Application.
+         * @returns The target type number.
+         */
+        get targetType(): number | undefined;
+        /**
+         * Sets the target type of the voice channel invite.
+         * @param value Target type (1 for Stream, 2 for Embedded Application).
+         * @throws Error if the value is not 1 or 2.
+         */
+        set targetType(value: number | undefined);
+        /**
+         * Gets the user ID whose stream should be displayed.
+         * Required if target_type is 1 (Stream).
+         * @returns The target user ID.
+         */
+        get targetUserId(): string | undefined;
+        /**
+         * Sets the user ID whose stream should be displayed.
+         * @param value Target user ID.
+         */
+        set targetUserId(value: string | undefined);
+        /**
+         * Gets the ID of the embedded application to launch.
+         * Required if target_type is 2 (Embedded Application).
+         * @returns The target application ID.
+         */
+        get targetApplicationId(): string | undefined;
+        /**
+         * Sets the ID of the embedded application to launch.
+         * @param value Target application ID.
+         */
+        set targetApplicationId(value: string | undefined);
+        /**
+         * Converts the payload to a JSON-serializable object.
+         * @returns A JSON object representation of the invite payload.
+         */
+        toJSON(): any;
+    }
+}
 declare module "structures/messagePayload" {
     /**
      * Represents the payload for creating or updating a message.
@@ -1201,6 +1575,8 @@ declare module "structures/messagePayload" {
 declare module "structures/guildChannel" {
     import { Client } from "client";
     import { ChannelPayload } from "structures/channelPayload";
+    import { Invite } from "structures/invite";
+    import { InvitePayload } from "structures/invitePayload";
     import { Member } from "structures/member";
     import { MessagePayload } from "structures/messagePayload";
     /**
@@ -1308,6 +1684,30 @@ declare module "structures/guildChannel" {
          *                 or if the channel does not exist.
          */
         delete(): Promise<void>;
+        /**
+         * Creates a new invite for this channel.
+         *
+         * Sends a request to the Discord API to create an invite link with the specified options.
+         *
+         * @param {InvitePayload} options - Options for creating the invite.
+         * @returns {Promise<Invite>} The invite object returned from the API.
+         *
+         * @throws {Error} Throws if the request fails due to permission issues, invalid parameters, or network errors.
+         */
+        createInvite(options: InvitePayload): Promise<Invite>;
+        /**
+         * Retrieves all active invites for this guild channel.
+         *
+         * This method calls the Discord API to fetch all invite links that have been created for this specific channel.
+         * The returned invites include metadata such as the creator, usage limits, expiration time, etc.
+         *
+         * ⚠️ Requires the `MANAGE_CHANNELS` permission on the channel.
+         *
+         * @returns {Promise<Invite[]>} A promise that resolves to an array of {@link Invite} objects.
+         *
+         * @throws {Error} Throws if the request fails due to permission issues, network errors, or invalid channel ID.
+         */
+        getInvites(): Promise<Invite[]>;
     }
 }
 declare module "structures/interaction" {
@@ -1937,23 +2337,16 @@ declare module "structures/commandPayload" {
         toJSON(): any;
     }
 }
-declare module "client" {
-    import { EventEmitter } from "events";
+declare module "clientEvents" {
     import { Guild } from "structures/guild";
-    import { RestApi } from "rest/request";
-    import { WebSocketClient } from "ws/websocket";
-    import { Message } from "structures/message";
-    import { Role } from "structures/role";
-    import { GuildChannel } from "structures/guildChannel";
-    import { Member } from "structures/member";
-    import { Reaction } from "structures/reaction";
-    import { VoiceState } from "structures/voiceState";
-    import { Interaction } from "structures/interaction";
     import { GuildBan } from "structures/guildBan";
-    import { Collection } from "utils/collection";
-    import { User } from "structures/user";
-    import { ApplicationCommand } from "structures/applicationCommand";
-    import { CommandPayload } from "structures/commandPayload";
+    import { GuildChannel } from "structures/guildChannel";
+    import { Interaction } from "structures/interaction";
+    import { Member } from "structures/member";
+    import { Message } from "structures/message";
+    import { Reaction } from "structures/reaction";
+    import { Role } from "structures/role";
+    import { VoiceState } from "structures/voiceState";
     /**
      * Interface representing the various events emitted by a client.
      */
@@ -2063,6 +2456,20 @@ declare module "client" {
          */
         interactionCreate: [interaction: Interaction];
     }
+}
+declare module "client" {
+    import { EventEmitter } from "events";
+    import { Guild } from "structures/guild";
+    import { RestApi } from "rest/request";
+    import { WebSocketClient } from "ws/websocket";
+    import { Role } from "structures/role";
+    import { GuildChannel } from "structures/guildChannel";
+    import { Member } from "structures/member";
+    import { Collection } from "utils/collection";
+    import { User } from "structures/user";
+    import { ApplicationCommand } from "structures/applicationCommand";
+    import { CommandPayload } from "structures/commandPayload";
+    import { ClientEvents } from "clientEvents";
     /**
      * Represents the main client for interacting with the API and WebSocket.
      * Extends the EventEmitter to handle events.
@@ -2112,9 +2519,13 @@ declare module "index" {
     export { CommandPayload } from "structures/commandPayload";
     export { MessagePayload } from "structures/messagePayload";
     export { RolePayload } from "structures/rolePayload";
+    export { GuildPayload } from "structures/guildPayload";
+    export { InvitePayload } from "structures/invitePayload";
+    export { Invite } from "structures/invite";
+    export { Application } from "structures/application";
     export { ApplicationCommand } from "structures/applicationCommand";
     export { Attachment } from "structures/attachment";
-    export { Embed, EmbedFooter, EmbedAuthor, EmbedImage, EmbedThumbnail, EmbedVideo, EmbedField } from "structures/embed";
+    export { Embed, EmbedFooter, EmbedAuthor, EmbedImage, EmbedThumbnail, EmbedVideo, EmbedField, EmbedProvider } from "structures/embed";
     export { Guild } from "structures/guild";
     export { GuildBan } from "structures/guildBan";
     export { GuildChannel } from "structures/guildChannel";
@@ -2132,5 +2543,10 @@ declare module "index" {
     export { User } from "structures/user";
     export { VoiceState } from "structures/voiceState";
     export { Client } from "client";
+    export { ClientEvents } from "clientEvents";
+    export { Collection } from "utils/collection";
+    export { RestApi } from "rest/request";
+    export { apiEndpoints } from "rest/endpoints";
+    export { WebSocketClient } from "ws/websocket";
 }
 //# sourceMappingURL=index.d.ts.map
